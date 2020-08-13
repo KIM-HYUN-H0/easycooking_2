@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-import { Theme, makeStyles } from "@material-ui/core/styles";
-import Recipe from './Recipe';
-import db from '../config';
+import {  makeStyles } from "@material-ui/core/styles";
+import {db} from '../config';
+import CardRecipe from './Repeat/CardRecipe';
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -15,9 +16,16 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
+    box : {
+        textAlign : 'center',
+    }
 }));
 //수정 요망. useeffect 쓰지말고 usestate에 한번에 넣기
 const Board = (props: any) => {
+    const [page, setPage] = useState(1);
+
+    const [cards, setCards] = useState();
+
     const [open, setOpen] = useState(0);
     const [category, setCategory] = useState();
     const handleopen = () => {
@@ -53,6 +61,38 @@ const Board = (props: any) => {
             })
     }, [])
 
+    useEffect(() => {
+        if(Number(props.match.params.idx) === 0) {
+            db.collection("board")
+            .get()
+            .then((data) => {
+                let docs: any = [];
+                data.forEach((doc) => {
+                    docs.push(doc.data());
+                })
+                setCards(docs);
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+        }
+        else {
+        db.collection("board").where("category", "==", Number(props.match.params.idx))
+            .get()
+            .then((data) => {
+                let docs: any = [];
+                data.forEach((doc) => {
+                    docs.push(doc.data());
+                })
+                setCards(docs);
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+        }
+    }, [props.match.params.idx])
+
+
     return (
         <>
             <Button style={{ color: "#b8dea8" }} onClick={handleopen}>
@@ -74,7 +114,6 @@ const Board = (props: any) => {
                         {
                             category !== undefined ?
                                 category.map((data: any) => {
-                                    console.log('zz')
                                     return (
                                         <Link to={'/board/' + data.idx} style={{ textDecoration: "none" }} onClick={handleclose}>
                                             {data.name}
@@ -85,7 +124,27 @@ const Board = (props: any) => {
                 </>
             </Modal>
             <Button component={Link} to="/write" variant="outlined">글쓰기</Button>
-            <Recipe idx={props.match.params.idx}/>
+
+            {/* 레시피 부분 */}
+            <Box className={classes.box}>
+                {cards !== undefined ?
+                    cards.map((data: any) => {
+                        return (
+                            <>
+                                <CardRecipe
+                                    idx={data.idx}
+                                    title={data.title}
+                                    author={data.author}
+                                    date={data.date}
+                                    view={data.view}
+                                    like={data.like}
+                                    hate={data.hate}
+                                    thumbnail={data.thumbnail}
+                                />
+                            </>
+                        )
+                    }) : null}
+            </Box>
         </>
     )
 }

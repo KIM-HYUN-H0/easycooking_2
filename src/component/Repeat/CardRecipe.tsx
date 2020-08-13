@@ -36,17 +36,6 @@ const CardRecipe = (props:any) => {
     const doHate = () => {
         console.log('hate');
     }
-    const sample = {
-        title : '감자짜글이',
-        date : '날짜',
-        idx : 1,
-        author : '김현호',
-        view : 53,
-        like : 32,
-        hate : 10,
-        thumbnail : 'zz'
-
-    }
     return (
         <>
             <Box className={classes.box} m={0}>
@@ -68,11 +57,11 @@ const CardRecipe = (props:any) => {
                             <VisibilityIcon />
                             <Typography>{view}</Typography>
                         </IconButton>
-                        <IconButton component="a" href={document.location.href} onClick={like} color="secondary" aria-label="add to favorites">
+                        <IconButton onClick={doLike} color="secondary" aria-label="add to favorites">
                             <ThumbUpAltIcon />
                             <Typography>{like}</Typography>
                         </IconButton>
-                        <IconButton component="a" href={document.location.href} onClick={hate} color="primary" aria-label="share">
+                        <IconButton onClick={doHate} color="primary" aria-label="share">
                             <ThumbDownIcon />
                             <Typography>{hate}</Typography>
                         </IconButton>

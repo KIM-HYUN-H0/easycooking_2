@@ -4,7 +4,7 @@ import Header from './component/Header'
 import Content from './component/Content';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Board from './component/Board';
-import db from './config';
+import {db} from './config';
 import Test from './component/Test';
 import Write from './component/Write';
 import Detail from './component/Detail';

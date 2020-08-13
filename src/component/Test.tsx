@@ -1,6 +1,6 @@
 
 import React, {useEffect} from 'react';
-import db from '../config';
+import {db} from '../config';
 
 const Test = () => {
 

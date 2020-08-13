@@ -13,8 +13,9 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import db from '../config'
-import { domainToASCII } from 'url';
+import {db} from '../config'
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
 
 const useStyles = makeStyles((theme) => ({
     box: {
@@ -107,7 +108,7 @@ const Detail = (props: any) => {
                             <hr />
                             <div id="viewer">
                                 {data.content}
-                                {/* <Viewer style={{ border: '5px solid gray' }} initialValue={data.content} /> */}
+                                <Viewer initialValue={data.content} />
                             </div>
                         </CardContent>
                     </Card>
