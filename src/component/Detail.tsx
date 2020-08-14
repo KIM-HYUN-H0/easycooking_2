@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import {db} from '../config'
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import firebase from 'firebase';
 
 const useStyles = makeStyles((theme) => ({
     box: {
@@ -35,25 +36,40 @@ const useStyles = makeStyles((theme) => ({
 
 const Detail = (props: any) => {
     const [data, setData] = useState();
+    const [doc, setDoc] = useState();
     useEffect(() => {
+        load();
+        //view();
+        
+    },[])
+    const view = () => {
+        db.collection('board').doc(doc)
+        .update({ view : firebase.firestore.FieldValue.increment(1)})
+    }
+    const load = () => {
         db.collection('board').where('idx', '==', Number(props.match.params.idx))
             .get()
             .then((data) => {
                 data.forEach((doc) => {
                     setData(doc.data());
+                    setDoc(doc.id);
                 })
             })
             .catch((err) => {
                 console.error(err);
             })
-    })
-
+    }
 
     const hate = () => {
-        console.log(hate);
+        db.collection('board').doc(doc)
+        .update({ hate : firebase.firestore.FieldValue.increment(1)})
+        .then(() => { load()})
     }
     const like = () => {
-        console.log(like);
+        db.collection('board').doc(doc)
+        .update({ like : firebase.firestore.FieldValue.increment(1)})
+        .then(() => { load()})
+        
     }
 
     const classes = useStyles();
@@ -84,9 +100,7 @@ const Detail = (props: any) => {
                                 <Typography>{data.view}</Typography>
                             </IconButton>
                             <IconButton
-                                component="a"
-                                href={document.location.href}
-                                onClick={data.like}
+                                onClick={like}
                                 color="secondary"
                                 aria-label="add to favorites"
                             >
@@ -94,8 +108,6 @@ const Detail = (props: any) => {
                                 <Typography>{data.like}</Typography>
                             </IconButton>
                             <IconButton
-                                component="a"
-                                href={document.location.href}
                                 onClick={hate}
                                 color="primary"
                                 aria-label="share"
@@ -107,7 +119,6 @@ const Detail = (props: any) => {
                         <CardContent>
                             <hr />
                             <div id="viewer">
-                                {data.content}
                                 <Viewer initialValue={data.content} />
                             </div>
                         </CardContent>

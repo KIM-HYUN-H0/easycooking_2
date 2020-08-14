@@ -27,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
     const classes = useStyles();
     return (
-        <>
-            <AppBar position="static">
+        <div className={classes.flex}>
+            <AppBar position="static" className={classes.appbar}>
                 <Toolbar>
                     <IconButton
                         component="a"
@@ -47,7 +47,7 @@ const Header = () => {
                     </Menu>
                 </Toolbar>
             </AppBar>
-        </>
+        </div>
     )
 }
 export default Header;

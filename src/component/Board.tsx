@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-import {  makeStyles } from "@material-ui/core/styles";
-import {db} from '../config';
+import { makeStyles } from "@material-ui/core/styles";
+import { db } from '../config';
 import CardRecipe from './Repeat/CardRecipe';
 import Box from "@material-ui/core/Box";
 
@@ -16,8 +16,12 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
     },
-    box : {
-        textAlign : 'center',
+    box: {
+        textAlign: 'center',
+    },
+    top : {
+        marginTop : 10,
+        textAlign : 'center'
     }
 }));
 //수정 요망. useeffect 쓰지말고 usestate에 한번에 넣기
@@ -62,39 +66,40 @@ const Board = (props: any) => {
     }, [])
 
     useEffect(() => {
-        if(Number(props.match.params.idx) === 0) {
-            db.collection("board")
-            .get()
-            .then((data) => {
-                let docs: any = [];
-                data.forEach((doc) => {
-                    docs.push(doc.data());
+        if (Number(props.match.params.idx) === 0) {
+            db.collection("board").orderBy('idx', 'desc')
+                .get()
+                .then((data) => {
+                    let docs: any = [];
+                    data.forEach((doc) => {
+                        docs.push(doc.data());
+                    })
+                    setCards(docs);
                 })
-                setCards(docs);
-            })
-            .catch((err) => {
-                console.error(err);
-            })
+                .catch((err) => {
+                    console.error(err);
+                })
         }
         else {
-        db.collection("board").where("category", "==", Number(props.match.params.idx))
-            .get()
-            .then((data) => {
-                let docs: any = [];
-                data.forEach((doc) => {
-                    docs.push(doc.data());
+            db.collection("board").where("category", "==", Number(props.match.params.idx))
+                .get()
+                .then((data) => {
+                    let docs: any = [];
+                    data.forEach((doc) => {
+                        docs.push(doc.data());
+                    })
+                    setCards(docs);
                 })
-                setCards(docs);
-            })
-            .catch((err) => {
-                console.error(err);
-            })
+                .catch((err) => {
+                    console.error(err);
+                })
         }
     }, [props.match.params.idx])
 
 
     return (
         <>
+            <div className={classes.top}>
             <Button style={{ color: "#b8dea8" }} onClick={handleopen}>
                 Category
         </Button>
@@ -124,27 +129,27 @@ const Board = (props: any) => {
                 </>
             </Modal>
             <Button component={Link} to="/write" variant="outlined">글쓰기</Button>
-
-            {/* 레시피 부분 */}
-            <Box className={classes.box}>
-                {cards !== undefined ?
-                    cards.map((data: any) => {
-                        return (
-                            <>
-                                <CardRecipe
-                                    idx={data.idx}
-                                    title={data.title}
-                                    author={data.author}
-                                    date={data.date}
-                                    view={data.view}
-                                    like={data.like}
-                                    hate={data.hate}
-                                    thumbnail={data.thumbnail}
-                                />
-                            </>
-                        )
-                    }) : null}
-            </Box>
+        </div>
+            {/* 레시피 부분 */ }
+    <Box className={classes.box}>
+        {cards !== undefined ?
+            cards.map((data: any) => {
+                return (
+                    <>
+                        <CardRecipe
+                            idx={data.idx}
+                            title={data.title}
+                            author={data.author}
+                            date={data.date}
+                            view={data.view}
+                            like={data.like}
+                            hate={data.hate}
+                            thumbnail={data.thumbnail}
+                        />
+                    </>
+                )
+            }) : null}
+    </Box>
         </>
     )
 }

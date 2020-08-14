@@ -8,6 +8,7 @@ import {db} from './config';
 import Test from './component/Test';
 import Write from './component/Write';
 import Detail from './component/Detail';
+import Container from '@material-ui/core/Container';
 
 const App = () => {
   return (
@@ -15,11 +16,12 @@ const App = () => {
       <Router>
         <Header />
         <Content />
+        <Container style={{marginBottom : '100px'}}>
         <Route exact path="/board/:idx" component={Board} />
         <Route exact path="/test" component={Test} />
         <Route exact path="/write" component={Write} />
         <Route exact path="/board/detail/:idx" component={Detail} />
-      </Router>
+        </Container></Router>
     </>
   );
 }

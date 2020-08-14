@@ -17,6 +17,8 @@ import axios from "axios";
 const useStyles = makeStyles({
     box: {
         display: 'inline-block',
+        marginTop : 10,
+        marginLeft : 10
     },
     root: {
         width: 300,
