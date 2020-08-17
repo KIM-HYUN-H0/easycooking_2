@@ -13,7 +13,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import {db} from '../config'
+import { db } from '../config'
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import firebase from 'firebase';
@@ -40,11 +40,11 @@ const Detail = (props: any) => {
     useEffect(() => {
         load();
         //view();
-        
-    },[])
+
+    }, [])
     const view = () => {
         db.collection('board').doc(doc)
-        .update({ view : firebase.firestore.FieldValue.increment(1)})
+            .update({ view: firebase.firestore.FieldValue.increment(1) })
     }
     const load = () => {
         db.collection('board').where('idx', '==', Number(props.match.params.idx))
@@ -62,14 +62,24 @@ const Detail = (props: any) => {
 
     const hate = () => {
         db.collection('board').doc(doc)
-        .update({ hate : firebase.firestore.FieldValue.increment(1)})
-        .then(() => { load()})
+            .update({ hate: firebase.firestore.FieldValue.increment(1) })
+            .then(() => { load() })
     }
     const like = () => {
         db.collection('board').doc(doc)
-        .update({ like : firebase.firestore.FieldValue.increment(1)})
-        .then(() => { load()})
-        
+            .update({ like: firebase.firestore.FieldValue.increment(1) })
+            .then(() => { load() })
+    }
+
+    const deleteContent = () => {
+        db.collection('board').doc(doc)
+            .delete()
+            .then(() => {
+                console.log('delete')
+            })
+            .catch((err) => {
+                console.error(err);
+            })
     }
 
     const classes = useStyles();
@@ -77,55 +87,59 @@ const Detail = (props: any) => {
         <>
             <div>
                 <span>수정</span>
-                <span>삭제</span>
+                <span>
+                    <Button onClick={deleteContent}>
+                        삭제
+              </Button>
+                </span>
             </div>
             {data !== undefined ?
-            (
-            <>
-                <Box className={classes.box} m={0}>
-                    <Card className={classes.root}>
-                        <CardHeader title={data.title} subheader={'날짜'} />
-                        <CardMedia
-                            className={classes.media}
-                            image={data.thumbnail}
-                            title={data.title}
-                            style={{ border: "1px solid gray" }}
-                        ></CardMedia>
-                        <CardContent>
-                            <Typography>{data.author} 요리사</Typography>
-                        </CardContent>
-                        <CardActions disableSpacing>
-                            <IconButton color="inherit" aria-label="view">
-                                <VisibilityIcon />
-                                <Typography>{data.view}</Typography>
-                            </IconButton>
-                            <IconButton
-                                onClick={like}
-                                color="secondary"
-                                aria-label="add to favorites"
-                            >
-                                <ThumbUpAltIcon />
-                                <Typography>{data.like}</Typography>
-                            </IconButton>
-                            <IconButton
-                                onClick={hate}
-                                color="primary"
-                                aria-label="share"
-                            >
-                                <ThumbDownIcon />
-                                <Typography>{data.hate}</Typography>
-                            </IconButton>
-                        </CardActions>
-                        <CardContent>
-                            <hr />
-                            <div id="viewer">
-                                <Viewer initialValue={data.content} />
-                            </div>
-                        </CardContent>
-                    </Card>
-                </Box>
-            </>
-            ) : null}
+                (
+                    <>
+                        <Box className={classes.box} m={0}>
+                            <Card className={classes.root}>
+                                <CardHeader title={data.title} subheader={'날짜'} />
+                                <CardMedia
+                                    className={classes.media}
+                                    image={data.thumbnail}
+                                    title={data.title}
+                                    style={{ border: "1px solid gray" }}
+                                ></CardMedia>
+                                <CardContent>
+                                    <Typography>{data.author} 요리사</Typography>
+                                </CardContent>
+                                <CardActions disableSpacing>
+                                    <IconButton color="inherit" aria-label="view">
+                                        <VisibilityIcon />
+                                        <Typography>{data.view}</Typography>
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={like}
+                                        color="secondary"
+                                        aria-label="add to favorites"
+                                    >
+                                        <ThumbUpAltIcon />
+                                        <Typography>{data.like}</Typography>
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={hate}
+                                        color="primary"
+                                        aria-label="share"
+                                    >
+                                        <ThumbDownIcon />
+                                        <Typography>{data.hate}</Typography>
+                                    </IconButton>
+                                </CardActions>
+                                <CardContent>
+                                    <hr />
+                                    <div id="viewer">
+                                        <Viewer initialValue={data.content} />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </Box>
+                    </>
+                ) : null}
 
         </>
     )

@@ -22,6 +22,9 @@ const useStyles = makeStyles({
     },
     root: {
         width: 300,
+        '&:hover' : {
+            opacity:0.5
+        }
     },
     media: {
         height: 0,
@@ -42,7 +45,7 @@ const CardRecipe = (props:any) => {
         <>
             <Box className={classes.box} m={0}>
                 <Card className={classes.root}>
-                    <Link to={"/board/detail/" + idx} style={{ textDecoration: 'none' }}>
+                    <Link to={"/board/detail/" + idx} style={{ textDecoration: 'none', color : 'black' }}>
                         <CardHeader title={title} subheader={date} />
                         <CardMedia
                             className={classes.media}

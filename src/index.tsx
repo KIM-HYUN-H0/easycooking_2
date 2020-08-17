@@ -13,7 +13,7 @@ import {
 const theme = createMuiTheme({
   typography: {
     fontFamily: 'KyoboHand',
-    fontSize : 14,
+    fontSize : 16,
 
   }
 });

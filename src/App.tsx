@@ -8,6 +8,7 @@ import {db} from './config';
 import Test from './component/Test';
 import Write from './component/Write';
 import Detail from './component/Detail';
+import Crawling from './component/Crawling';
 import Container from '@material-ui/core/Container';
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
         <Route exact path="/test" component={Test} />
         <Route exact path="/write" component={Write} />
         <Route exact path="/board/detail/:idx" component={Detail} />
+        <Route exact path="/crawling" component={Crawling} />
         </Container></Router>
     </>
   );

@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { db } from '../config';
 import CardRecipe from './Repeat/CardRecipe';
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -120,8 +121,8 @@ const Board = (props: any) => {
                             category !== undefined ?
                                 category.map((data: any) => {
                                     return (
-                                        <Link to={'/board/' + data.idx} style={{ textDecoration: "none" }} onClick={handleclose}>
-                                            {data.name}
+                                        <Link to={'/board/' + data.idx} style={{ textDecoration: "none", color:'black' }} onClick={handleclose}>
+                                            <Typography>{data.name}</Typography>
                                         </Link>
                                     )
                                 }) : null}
