@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useRef } from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -32,7 +32,17 @@ const useStyles = makeStyles({
     },
 })
 
-const CardRecipe = (props:any) => {
+const CardRecipe = (props: {
+    idx : number,
+    title : string,
+    author : string,
+    date : string,
+    view : number,
+    like : number,
+    hate : number,
+    thumbnail : string,
+    
+}) => {
     const { idx, title, author, date, view, like, hate, thumbnail} = props;
     const classes = useStyles();
     const doLike = () => {
@@ -43,10 +53,10 @@ const CardRecipe = (props:any) => {
     }
     return (
         <>
-            <Box className={classes.box} m={0}>
+            <Box className={classes.box} m={0} >
                 <Card className={classes.root}>
                     <Link to={"/board/detail/" + idx} style={{ textDecoration: 'none', color : 'black' }}>
-                        <CardHeader title={title} subheader={date} />
+                        <CardHeader titleTypographyProps={{variant:'h6' }} title={title} subheader={date} />
                         <CardMedia
                             className={classes.media}
                             image={thumbnail}

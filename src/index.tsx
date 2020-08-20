@@ -13,9 +13,7 @@ import {
 const theme = createMuiTheme({
   typography: {
     fontFamily: 'KyoboHand',
-    fontSize : 16,
-
-  }
+  },
 });
 
 ReactDOM.render(

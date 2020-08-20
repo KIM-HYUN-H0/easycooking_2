@@ -1,23 +1,23 @@
 
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {db} from '../config';
 
 const Test = () => {
+    const [count, setCount] = useState(0);
+    useEffect(() => {
+        test();
+    }, [])
+    const test = () => {
+        setCount(prev => prev+1);
+    }
 
     useEffect(() => {
-        db.collection('category').add({
-            name : '부침류'
-        })
-        .then((doc) => {
-            console.log('성공', doc.id)
-        })
-        .catch((err) => {
-            console.error(err);
-        })
-    })
+        console.log(count);
+    }, [count])
+    
     return(
         <>
-        Test
+        <button type="submit" onClick={(e:any) => test()}>dd</button>
         </>
     )
 }

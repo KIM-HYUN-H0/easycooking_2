@@ -39,13 +39,13 @@ const Detail = (props: any) => {
     const [doc, setDoc] = useState();
     useEffect(() => {
         load();
-        //view();
-
     }, [])
-    const view = () => {
-        db.collection('board').doc(doc)
-            .update({ view: firebase.firestore.FieldValue.increment(1) })
-    }
+
+    // useEffect(() => {
+    //     db.collection('board').doc(doc)
+    //         .update({ view: firebase.firestore.FieldValue.increment(1) })
+    // }, [])
+
     const load = () => {
         db.collection('board').where('idx', '==', Number(props.match.params.idx))
             .get()
@@ -86,11 +86,15 @@ const Detail = (props: any) => {
     return (
         <>
             <div>
-                <span>수정</span>
+                <span>
+                    <Button onClick={deleteContent}>
+                    수정
+                    </Button>
+                </span>
                 <span>
                     <Button onClick={deleteContent}>
                         삭제
-              </Button>
+                    </Button>
                 </span>
             </div>
             {data !== undefined ?
