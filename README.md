@@ -1,44 +1,13 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Typescript, Firebase 를 사용한 내 냉장고를 부탁해 리메이크
 
-## Available Scripts
+### 소개
+#### https://github.com/KIM-HYUN-H0/easycooking
+#### 기존에 React + Express 로 제작한 프로젝트인 내 냉장고를 부탁해를 얼추 완성하고 나서, 현재 실력으로는 프론트엔드와 백엔드 둘다 공부하는 것이 욕심이라고 생각하여 백엔드를 파이어베이스로, 리액트는 타입스크립트로 다시 작성한 프로젝트입니다.
+#### create-react-app 으로 프로젝트를 생성할때 타입스크립트 옵션을 주기만 했고, 아직 활용하지 못한 상황입니다.(공부중)
 
-In the project directory, you can run:
 
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 미흡한 부분
+Typescript 로 만들기만 했고 공부가 미흡해 적용하지 못함
+CRUD 기능만 우선적으로 만든 후에 포트폴리오로 활용하고, 추후 생각했던 기능을 추가해나갈 예정
+### 배포 
+https://easycooking-f4984.firebaseapp.com/
