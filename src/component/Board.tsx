@@ -73,6 +73,7 @@ const Board = (props: any) => {
         name: string;
     }
     const LoadRecipe = () => {
+        let docs:any = [];
         if (Number(props.match.params.idx) === 0) {
             db.collection('board')
                 .orderBy('idx')
@@ -82,35 +83,50 @@ const Board = (props: any) => {
                     db.collection("board")
                         .orderBy('idx', 'desc')
                         .startAt(last)
-                        .limit(9)
+                        .limit(12)
                         .get()
                         .then((data) => {
-                            let docs:any = [];
                             data.forEach((doc) => {
-                                docs.push(doc.data());
+                                const check = cards.findIndex((i:any) => i.idx === doc.data().idx);
+                                if(check === -1) {
+                                    docs.push(doc.data());
+                                }
                             })
                             
-                            setCards((prev) => prev.concat(docs));
+                            setCards((prev) => prev.concat(docs));  
                             setPageCount(prev => prev+1);
+                            
                         })
                         .catch((err) => {
                             console.error(err);
                         })
                 })
-                
         }
         else {
             db.collection("board").where("category", "==", Number(props.match.params.idx))
                 .get()
-                .then((data) => {
-                    let docs: any = [];
-                    data.forEach((doc) => {
-                        docs.push(doc.data());
-                    })
-                    setCards(cards.concat(docs));
-                })
-                .catch((err) => {
-                    console.error(err);
+                .then((data) => { 
+                    const last = data.docs.length - (pageCount * 9);
+                    db.collection("board")
+                        .orderBy('idx', 'desc')
+                        .startAt(last)
+                        .limit(12)
+                        .get()
+                        .then((data) => {
+                            data.forEach((doc) => {
+                                const check = cards.findIndex((i:any) => i.idx === doc.data().idx);
+                                if(check === -1) {
+                                    docs.push(doc.data());
+                                }
+                            })
+                            
+                            setCards((prev) => prev.concat(docs));  
+                            setPageCount(prev => prev+1);
+                            
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        })
                 })
         }
     }
@@ -118,12 +134,7 @@ const Board = (props: any) => {
 
     const callback = (entries: any, observer: any) => {
         if(entries[0].isIntersecting) {
-            if(!loading) { setLoading(true); LoadRecipe(); }
-            
-            
-            setTimeout(() => {
-                setLoading(false);
-            }, 500)
+            LoadRecipe();
         }
     }
     
@@ -136,16 +147,14 @@ const Board = (props: any) => {
         const target = document.querySelector('#target');
         const io = new IntersectionObserver(callback, ioOptions);
         io.observe(target!);
+        
         return () => {
             io.disconnect();
         }
-    })
-
+    }, [pageCount])
     return (
         <>
-
             <div className={classes.top}>
-                <button type="submit" onClick={e => setPageCount(pageCount+1)} style={{height : 1000}}>버튼</button>
                 <Button style={{ color: "#b8dea8" }} onClick={handleopen}>
                     Category
                 </Button>

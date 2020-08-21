@@ -14,6 +14,12 @@ const Test = () => {
     useEffect(() => {
         console.log(count);
     }, [count])
+
+    useEffect(() => {
+        setInterval(() => {
+            console.log(count);
+        },300)
+    }, [])
     
     return(
         <>
