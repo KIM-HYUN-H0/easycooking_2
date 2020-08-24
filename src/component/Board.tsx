@@ -45,7 +45,11 @@ const Board = (props: any) => {
     }
     const handleclose = () => {
         setOpen(0);
+        
     }
+    useEffect(() => {
+        setCards([]);
+    }, [props.match.params.idx])
 
     const classes = useStyles();
 
@@ -151,7 +155,7 @@ const Board = (props: any) => {
         return () => {
             io.disconnect();
         }
-    }, [pageCount])
+    }, [pageCount, props.match.params.idx])
     return (
         <>
             <div className={classes.top}>

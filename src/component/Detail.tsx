@@ -17,6 +17,7 @@ import { db } from '../config'
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import firebase from 'firebase';
+import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
     box: {
@@ -32,28 +33,46 @@ const useStyles = makeStyles((theme) => ({
         height: 0,
         paddingTop: "56.25%", // 16:9
     },
+    modal: {
+        position: "absolute",
+        width: 300,
+        backgroundColor: theme.palette.background.paper,
+        border: "2px solid #000",
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 3),
+        textAlign : 'center'
+    },
 }));
 
 const Detail = (props: any) => {
     const [data, setData] = useState();
     const [doc, setDoc] = useState();
+    const [open, setOpen] = useState(0);
+
     useEffect(() => {
         load();
     }, [])
 
-    // useEffect(() => {
-    //     db.collection('board').doc(doc)
-    //         .update({ view: firebase.firestore.FieldValue.increment(1) })
-    // }, [])
+    const handleopen = () => {
+        setOpen(1);
+    }
+    const handleclose = () => {
+        setOpen(0);
+    }
 
     const load = () => {
         db.collection('board').where('idx', '==', Number(props.match.params.idx))
             .get()
             .then((data) => {
                 data.forEach((doc) => {
-                    setData(doc.data());
-                    setDoc(doc.id);
+                    db.collection('board').doc(doc.id)
+                        .update({ view: firebase.firestore.FieldValue.increment(1) })
+                        .then((data) => {
+                            setData(doc.data());
+                            setDoc(doc.id);
+                        })
                 })
+
             })
             .catch((err) => {
                 console.error(err);
@@ -72,6 +91,7 @@ const Detail = (props: any) => {
     }
 
     const deleteContent = () => {
+        alert('삭제되었습니다.');
         db.collection('board').doc(doc)
             .delete()
             .then(() => {
@@ -85,16 +105,36 @@ const Detail = (props: any) => {
     const classes = useStyles();
     return (
         <>
-            <div>
+            <div style={{ textAlign: 'center' }}>
                 <span>
                     <Button onClick={deleteContent}>
-                    수정
+                        수정
                     </Button>
                 </span>
                 <span>
-                    <Button onClick={deleteContent}>
+                    <Button onClick={handleopen}>
                         삭제
                     </Button>
+                    <Modal
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                        open={Boolean(open)}
+                        onClose={handleclose}
+                        aria-labelledby="CategoryModal"
+                        aria-describedby="Category"
+                    >
+                        <>
+                            <div className={classes.modal}>
+                                <div><Typography>정말로 삭제하시겠습니까?</Typography></div>
+                                <Button onClick={deleteContent}>예</Button>
+                                <Button onClick={handleclose}>아니요</Button>
+                            </div>
+                        </>
+
+                    </Modal>
                 </span>
             </div>
             {data !== undefined ?
@@ -111,6 +151,9 @@ const Detail = (props: any) => {
                                 ></CardMedia>
                                 <CardContent>
                                     <Typography>{data.author} 요리사</Typography>
+                                </CardContent>
+                                <CardContent>
+                                    <Typography>출처 {data.source}</Typography>
                                 </CardContent>
                                 <CardActions disableSpacing>
                                     <IconButton color="inherit" aria-label="view">
