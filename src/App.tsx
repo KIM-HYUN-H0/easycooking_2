@@ -11,6 +11,7 @@ import Detail from './component/Detail';
 import Crawling from './component/Crawling';
 import Container from '@material-ui/core/Container';
 import Login from './component/User/Login';
+import Register from './component/User/Register';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
         <Route exact path="/board/detail/:idx" component={Detail} />
         <Route exact path="/crawling" component={Crawling} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Register} />
         </Container>
         </Router>
     </>

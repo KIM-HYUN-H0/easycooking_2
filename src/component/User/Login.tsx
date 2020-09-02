@@ -85,7 +85,7 @@ const Login = () => {
                 </Link>
                     </Grid>
                     <Grid item>
-                        <Link to="/register" style={{ color: 'black', textDecoration: 'none' }}>
+                        <Link to="/signup" style={{ color: 'black', textDecoration: 'none' }}>
                             회원가입
                 </Link>
                     </Grid>
