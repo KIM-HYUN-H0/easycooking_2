@@ -40,7 +40,9 @@ const Header = () => {
                         <HomeIcon />
                     </IconButton>
                     <Typography variant="h6" className={classes.flex}>내 냉장고를 부탁해</Typography>
-                    <Button color="inherit">login</Button>
+                    <Button color="inherit">
+                        <Link to="/login" style={{color : 'white', textDecoration : 'none'}} >login</Link>
+                    </Button>
                     <Menu
                         open={Boolean(false)}>
                         <MenuItem>ㅋㅋ</MenuItem>

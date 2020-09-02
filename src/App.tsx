@@ -10,6 +10,7 @@ import Write from './component/Write';
 import Detail from './component/Detail';
 import Crawling from './component/Crawling';
 import Container from '@material-ui/core/Container';
+import Login from './component/User/Login';
 
 const App = () => {
   return (
@@ -23,7 +24,9 @@ const App = () => {
         <Route exact path="/write" component={Write} />
         <Route exact path="/board/detail/:idx" component={Detail} />
         <Route exact path="/crawling" component={Crawling} />
-        </Container></Router>
+        <Route exact path="/login" component={Login} />
+        </Container>
+        </Router>
     </>
   );
 }
