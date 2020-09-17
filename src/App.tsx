@@ -12,6 +12,8 @@ import Crawling from './component/Crawling';
 import Container from '@material-ui/core/Container';
 import Login from './component/User/Login';
 import Register from './component/User/Register';
+import Search from './component/Search';
+
 
 const App = () => {
   return (
@@ -27,6 +29,7 @@ const App = () => {
         <Route exact path="/crawling" component={Crawling} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={Register} />
+        <Route exact path="/Search" component={Search} />
         </Container>
         </Router>
     </>
