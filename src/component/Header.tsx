@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
@@ -11,6 +11,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import { auth, db } from '../config'
 const useStyles = makeStyles((theme) => ({
     homebutton: {
         marginRight: theme.spacing(2),
@@ -26,6 +27,31 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
     const classes = useStyles();
+    const [nickname, setNickname] = useState('');
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    useEffect(() => {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                setNickname(user.email!);
+            }
+            else {
+                console.log('로그아웃')
+            }
+        })
+    }, [])
+
+    const handleclick = (e: any) => {
+        setAnchorEl(e.currentTarget)
+    }
+    const handleclose = () => {
+        setAnchorEl(null);
+    }
+    const logout = () => {
+        auth.signOut().then(() => {
+            handleclose();
+        })
+    }
     return (
         <div className={classes.flex}>
             <AppBar position="static" className={classes.appbar}>
@@ -41,11 +67,38 @@ const Header = () => {
                     </IconButton>
                     <Typography variant="h6" className={classes.flex}>내 냉장고를 부탁해</Typography>
                     <Button color="inherit">
-                        <Link to="/login" style={{color : 'white', textDecoration : 'none'}} >login</Link>
+                        {nickname === '' ?
+                            <Link to="/login" style={{ color: 'white', textDecoration: 'none' }} >login</Link>
+                            :
+                            <>
+                                <Avatar
+                                    aria-controls="simple-menu"
+                                    aria-haspopup="true"
+                                    onClick={e => handleclick(e)}
+                                >
+                                    H
+                                </Avatar>
+                            </>
+                        }
                     </Button>
                     <Menu
-                        open={Boolean(false)}>
-                        <MenuItem>ㅋㅋ</MenuItem>
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(anchorEl)}
+                        onClose={handleclose}
+                    >
+                        <MenuItem component={Link} to="/myrefri" onClick={handleclose}>내 냉장고</MenuItem>
+                        <MenuItem component={Link} to="/info" onClick={handleclose}>내 정보</MenuItem>
+                        <MenuItem onClick={logout}>로그아웃</MenuItem>
                     </Menu>
                 </Toolbar>
             </AppBar>

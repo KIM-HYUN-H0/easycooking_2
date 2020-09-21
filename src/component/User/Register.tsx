@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { db, auth } from '../../config';
 
 const useStyles = makeStyles((theme) => ({
     button : {
@@ -13,14 +14,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Register = () => {
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const [pw2, setPw2] = useState('');
     const [nickname, setNickname] = useState('');
     const [result, setResult] = useState('');
 
-    const IDChange = (e:any) => {
-        setId(e.target.value)
+    const emailChange = (e:any) => {
+        setEmail(e.target.value)
     }
     const PWChange = (e:any) => {
         setPw(e.target.value);
@@ -37,7 +38,19 @@ const Register = () => {
         }
     }
     const Register = () => {
-        console.log('register');
+        auth.createUserWithEmailAndPassword(email, pw)
+        .then(() => {
+            db.collection('users').doc(auth.currentUser!.uid)
+            .set({
+                nickname : nickname,
+                email : email
+            })
+        })
+        .catch(err => {
+            const errCode = err.code;
+            const errMessage = err.message;
+            console.log(errCode, errMessage);
+        })
     }
 
     const classes = useStyles();
@@ -49,12 +62,12 @@ const Register = () => {
                 margin="normal"
                 required
                 fullWidth
-                id="username"
-                label="ID"
-                name="username"
-                autoComplete="id"
+                id="Email"
+                label="E-mail"
+                name="Email"
+                autoComplete="Email"
                 autoFocus
-                onChange={(e) => IDChange(e)}
+                onChange={(e) => emailChange(e)}
             />
             <TextField
                 variant="outlined"
@@ -62,7 +75,7 @@ const Register = () => {
                 required
                 fullWidth
                 id="password"
-                label="password"
+                label="Password"
                 name="password"
                 type="password"
                 onChange={(e) => PWChange(e)}
@@ -73,7 +86,7 @@ const Register = () => {
                 required
                 fullWidth
                 id="password"
-                label="password"
+                label="Password"
                 name="password"
                 type="password"
                 onChange={(e) => PW2Change(e)}
