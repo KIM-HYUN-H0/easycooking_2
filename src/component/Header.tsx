@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Header = () => {
+const Header = (props:any) => {
     const classes = useStyles();
     const [nickname, setNickname] = useState('');
     const [anchorEl, setAnchorEl] = useState(null);
@@ -36,7 +36,7 @@ const Header = () => {
                 setNickname(user.email!);
             }
             else {
-                console.log('로그아웃')
+                setNickname('');
             }
         })
     }, [])
@@ -50,6 +50,7 @@ const Header = () => {
     const logout = () => {
         auth.signOut().then(() => {
             handleclose();
+            props.history.push('/board')
         })
     }
     return (
@@ -57,8 +58,8 @@ const Header = () => {
             <AppBar position="static" className={classes.appbar}>
                 <Toolbar>
                     <IconButton
-                        component="a"
-                        href="/"
+                        component={Link}
+                        to="/"
                         edge="start"
                         className={classes.homebutton}
                         color="inherit"
@@ -71,6 +72,7 @@ const Header = () => {
                             <Link to="/login" style={{ color: 'white', textDecoration: 'none' }} >login</Link>
                             :
                             <>
+                            {nickname} 님 안녕하세요.  
                                 <Avatar
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
@@ -98,7 +100,7 @@ const Header = () => {
                     >
                         <MenuItem component={Link} to="/myrefri" onClick={handleclose}>내 냉장고</MenuItem>
                         <MenuItem component={Link} to="/info" onClick={handleclose}>내 정보</MenuItem>
-                        <MenuItem onClick={logout}>로그아웃</MenuItem>
+                        <MenuItem component={Link} to="/" onClick={logout}>로그아웃</MenuItem>
                     </Menu>
                 </Toolbar>
             </AppBar>

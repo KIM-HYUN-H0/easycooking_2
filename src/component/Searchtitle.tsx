@@ -14,7 +14,7 @@ const useStyles = makeStyles({
     },
 })
 const Searchtitle = () => {
-    const [search, setSearch] = useState();
+    const [search, setSearch] = useState<any>();
     const [result, setResult] = useState();
     const classes = useStyles();
 

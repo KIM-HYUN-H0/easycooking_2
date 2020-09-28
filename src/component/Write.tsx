@@ -39,7 +39,7 @@ const Write = () => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [category, setCategory] = useState(0);
-    const [categories, setCategories] = useState();
+    const [categories, setCategories] = useState<any>();
     const [needs, setNeeds] = useState('');
     const [sauce, setSauce] = useState('');
     const [source, setSource] = useState('');
@@ -132,7 +132,7 @@ const Write = () => {
                     onChange={(e: any) => setCategory(e.target.value)}
                 >
                     {categories !== undefined ?
-                        categories.map((data: any) => {
+                        categories!.map((data: any) => {
                             return (
                                 <MenuItem value={data.idx}>
                                     {data.name}

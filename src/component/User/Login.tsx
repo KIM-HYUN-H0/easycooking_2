@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import {db, auth} from '../../config';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -17,16 +18,16 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Login = () => {
-    const [id,setId] = useState('');
-    const [pw, setPw] = useState('');
+const Login = (props:any) => {
+    const [email,setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [result, setResult] = useState('');
 
     const IDChange = (e:any) => {
-        setId(e.target.value);
+        setEmail(e.target.value);
     }
     const PWChange = (e:any) => {
-        setPw(e.target.value);
+        setPassword(e.target.value);
     }
     const handleKeyPress = (e:any) => {
         if(e.key === "Enter") {
@@ -34,11 +35,17 @@ const Login = () => {
         }
     }
     const Login = async () => {
-        console.log('login', id, pw);
+        auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+            props.history.push('/board/0');
+        })
+        .catch((err) => {
+            console.log(err.code, err.Mmssage);
+        })
     }
 
     const classes = useStyles();
-
+    
     return (
         <>
             <Container maxWidth="xs">
@@ -48,10 +55,10 @@ const Login = () => {
                     margin="normal"
                     required
                     fullWidth
-                    id="username"
-                    label="ID"
-                    name="username"
-                    autoComplete="email"
+                    id="Email"
+                    label="E-mail"
+                    name="Email"
+                    autoComplete="Email"
                     autoFocus
                     onChange={(e) => IDChange(e)}
                 />

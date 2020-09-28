@@ -37,7 +37,7 @@ const Board = (props: any) => {
     const [pageCount, setPageCount] = useState(0);
     const [cards, setCards] = useState([]);
     const [open, setOpen] = useState(0);
-    const [category, setCategory] = useState();
+    const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const handleopen = () => {

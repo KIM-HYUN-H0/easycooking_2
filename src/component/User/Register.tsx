@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
       }
 }));
 
-const Register = () => {
+const Register = (props:any) => {
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const [pw2, setPw2] = useState('');
@@ -45,6 +45,10 @@ const Register = () => {
                 nickname : nickname,
                 email : email
             })
+            .then(() => {
+                props.history.push('/');
+            })
+            
         })
         .catch(err => {
             const errCode = err.code;

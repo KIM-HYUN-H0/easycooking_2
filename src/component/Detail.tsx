@@ -45,8 +45,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Detail = (props: any) => {
-    const [data, setData] = useState();
-    const [doc, setDoc] = useState();
+    const [data, setData] = useState<any>();
+    const [doc, setDoc] = useState<any>(null);
     const [open, setOpen] = useState(0);
 
     useEffect(() => {
@@ -68,8 +68,8 @@ const Detail = (props: any) => {
                     db.collection('board').doc(doc.id)
                         .update({ view: firebase.firestore.FieldValue.increment(1) })
                         .then((data) => {
-                            setData(doc.data());
-                            setDoc(doc.id);
+                            setData(doc.data()!)
+                            setDoc(doc.id!);
                         })
                 })
 
