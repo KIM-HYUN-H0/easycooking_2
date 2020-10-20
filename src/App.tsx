@@ -14,20 +14,30 @@ import Container from '@material-ui/core/Container';
 import Login from './component/User/Login';
 import Register from './component/User/Register';
 import Search from './component/Search';
+import { makeStyles } from '@material-ui/core/styles';
 
+
+const useStyles = makeStyles((theme) => ({
+  fix : {
+
+  }
+
+}));
 
 const App = () => {
+  const classes = useStyles();
+
   return (
     <>
       <BrowserRouter>
         <Router>
-          <Route path="/" component={Header} />
-          <Route path="/" component={Content} />
+            <Route path="/" component={Header} />
+            <Route path="/" component={Content} />
           {/* <Header />
           <Content /> */}
           <Switch>
             <Container style={{ marginBottom: '100px' }}>
-            <Route exact path="/" component={Main} />
+              <Route exact path="/" component={Main} />
               <Route exact path="/board/:idx" component={Board} />
               <Route exact path="/test" component={Test} />
               <Route exact path="/write" component={Write} />

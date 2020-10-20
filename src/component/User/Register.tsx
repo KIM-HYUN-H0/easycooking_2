@@ -5,62 +5,79 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { db, auth } from '../../config';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
-    button : {
-        backgroundColor : '#AFDB9F',
-        color : 'white'
-      }
+    button: {
+        backgroundColor: '#AFDB9F',
+        color: 'white',
+        marginTop : theme.spacing(2),
+    },
+    avatar: {
+        backgroundColor : theme.palette.secondary.main
+    },
+    paper : {
+        display : 'flex',
+        alignItems : 'center',
+        flexDirection : 'column',
+        marginTop : theme.spacing(3)
+    }
 }));
 
-const Register = (props:any) => {
+const Register = (props: any) => {
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
     const [pw2, setPw2] = useState('');
     const [nickname, setNickname] = useState('');
     const [result, setResult] = useState('');
 
-    const emailChange = (e:any) => {
+    const emailChange = (e: any) => {
         setEmail(e.target.value)
     }
-    const PWChange = (e:any) => {
+    const PWChange = (e: any) => {
         setPw(e.target.value);
     }
-    const PW2Change = (e:any) => {
+    const PW2Change = (e: any) => {
         setPw2(e.target.value);
     }
-    const NICKChange = (e:any) => {
+    const NICKChange = (e: any) => {
         setNickname(e.target.value);
     }
-    const handleKeyPress = (e:any) => {
-        if(e.key === "Enter") {
+    const handleKeyPress = (e: any) => {
+        if (e.key === "Enter") {
             Register();
         }
     }
     const Register = () => {
         auth.createUserWithEmailAndPassword(email, pw)
-        .then(() => {
-            db.collection('users').doc(auth.currentUser!.uid)
-            .set({
-                nickname : nickname,
-                email : email
-            })
             .then(() => {
-                props.history.push('/');
+                db.collection('users').doc(auth.currentUser!.uid)
+                    .set({
+                        nickname: nickname,
+                        email: email
+                    })
+                    .then(() => {
+                        props.history.push('/');
+                    })
+
             })
-            
-        })
-        .catch(err => {
-            const errCode = err.code;
-            const errMessage = err.message;
-            console.log(errCode, errMessage);
-        })
+            .catch(err => {
+                const errCode = err.code;
+                const errMessage = err.message;
+                console.log(errCode, errMessage);
+            })
     }
 
     const classes = useStyles();
     return (
-        <Container maxWidth="xs">
-            <div>회원가입</div>
+        <Container maxWidth="xs" className={classes.paper}>
+            <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+            </Avatar>
+
+            <Typography component="h1" variant="h5">Sign Up</Typography>
             <TextField
                 variant="outlined"
                 margin="normal"

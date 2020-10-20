@@ -8,7 +8,8 @@ import CardRecipe from './Repeat/CardRecipe';
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Pagination from '@material-ui/lab/Pagination';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -29,6 +30,27 @@ const useStyles = makeStyles((theme) => ({
     page: {
         display: 'inline-block',
         marginTop: 50
+    },
+    category: {
+        display: 'flex',
+        justifyContent: 'space-around',
+        borderBottom: '1px solid gray',
+        maxWidth: '1024px',
+        margin: 'auto',
+        marginTop: theme.spacing(3),
+        paddingBottom: theme.spacing(2)
+    },
+    categoryItems: {
+        '&:hover': {
+            backgroundColor: 'gray'
+        }
+    },
+    addButton : {
+        position : 'fixed',
+        bottom : '100px',
+        right : '50px',
+        backgroundColor : '#AFDB9F',
+        color : 'white'
     }
 }));
 
@@ -36,17 +58,9 @@ const useStyles = makeStyles((theme) => ({
 const Board = (props: any) => {
     const [pageCount, setPageCount] = useState(0);
     const [cards, setCards] = useState([]);
-    const [open, setOpen] = useState(0);
     const [category, setCategory] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const handleopen = () => {
-        setOpen(1);
-    }
-    const handleclose = () => {
-        setOpen(0);
-        
-    }
     useEffect(() => {
         setCards([]);
     }, [props.match.params.idx])
@@ -77,12 +91,12 @@ const Board = (props: any) => {
         name: string;
     }
     const LoadRecipe = () => {
-        let docs:any = [];
+        let docs: any = [];
         if (Number(props.match.params.idx) === 0) {
             db.collection('board')
                 .orderBy('idx')
                 .get()
-                .then((data) => { 
+                .then((data) => {
                     const last = data.docs.length - (pageCount * 9);
                     db.collection("board")
                         .orderBy('idx', 'desc')
@@ -91,15 +105,15 @@ const Board = (props: any) => {
                         .get()
                         .then((data) => {
                             data.forEach((doc) => {
-                                const check = cards.findIndex((i:any) => i.idx === doc.data().idx);
-                                if(check === -1) {
+                                const check = cards.findIndex((i: any) => i.idx === doc.data().idx);
+                                if (check === -1) {
                                     docs.push(doc.data());
                                 }
                             })
-                            
-                            setCards((prev) => prev.concat(docs));  
-                            setPageCount(prev => prev+1);
-                            
+
+                            setCards((prev) => prev.concat(docs));
+                            setPageCount(prev => prev + 1);
+
                         })
                         .catch((err) => {
                             console.error(err);
@@ -109,7 +123,7 @@ const Board = (props: any) => {
         else {
             db.collection("board").where("category", "==", Number(props.match.params.idx))
                 .get()
-                .then((data) => { 
+                .then((data) => {
                     const last = data.docs.length - (pageCount * 9);
                     db.collection("board")
                         .orderBy('idx', 'desc')
@@ -118,15 +132,15 @@ const Board = (props: any) => {
                         .get()
                         .then((data) => {
                             data.forEach((doc) => {
-                                const check = cards.findIndex((i:any) => i.idx === doc.data().idx);
-                                if(check === -1) {
+                                const check = cards.findIndex((i: any) => i.idx === doc.data().idx);
+                                if (check === -1) {
                                     docs.push(doc.data());
                                 }
                             })
-                            
-                            setCards((prev) => prev.concat(docs));  
-                            setPageCount(prev => prev+1);
-                            
+
+                            setCards((prev) => prev.concat(docs));
+                            setPageCount(prev => prev + 1);
+
                         })
                         .catch((err) => {
                             console.error(err);
@@ -137,11 +151,11 @@ const Board = (props: any) => {
 
 
     const callback = (entries: any, observer: any) => {
-        if(entries[0].isIntersecting) {
+        if (entries[0].isIntersecting) {
             LoadRecipe();
         }
     }
-    
+
 
     useEffect(() => {
         const ioOptions = {
@@ -151,7 +165,7 @@ const Board = (props: any) => {
         const target = document.querySelector('#target');
         const io = new IntersectionObserver(callback, ioOptions);
         io.observe(target!);
-        
+
         return () => {
             io.disconnect();
         }
@@ -159,37 +173,20 @@ const Board = (props: any) => {
     return (
         <>
             <div className={classes.top}>
-                <Button style={{ color: "#b8dea8" }} onClick={handleopen}>
-                    Category
-                </Button>
-                <Modal
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                    }}
-                    open={Boolean(open)}
-                    onClose={handleclose}
-                    aria-labelledby="CategoryModal"
-                    aria-describedby="Category"
-                >
-                    <>
-                        <div className={classes.modal}>
-                            {
-                                category !== undefined ?
-                                    category.map((data: any) => {
-                                        return (
-                                            <Link to={'/board/' + data.idx} style={{ textDecoration: "none", color: 'black' }} onClick={handleclose}>
-                                                <Typography>{data.name}</Typography>
-                                            </Link>
-                                        )
-                                    }) : null}
-                        </div>
-                    </>
-                </Modal>
-                <Button component={Link} to="/write" variant="outlined">글쓰기</Button>
+                <div className={classes.category}>
+                    {
+                        category !== undefined ?
+                            category.map((data: any) => {
+                                return (
+                                    <Link to={'/board/' + data.idx} className={classes.categoryItems} style={{ textDecoration: "none", color: 'black' }}>
+                                        <Typography>{data.name}</Typography>
+                                    </Link>
+                                )
+                            }) : null}
+                </div>
             </div>
             {/* 레시피 부분 */}
+
             <Box className={classes.box}>
                 {cards !== undefined ?
                     cards.map((data: any, i: number) => {
@@ -208,7 +205,11 @@ const Board = (props: any) => {
                             </>
                         )
                     }) : <CircularProgress />}
-                    <div id="target" ></div>
+                <Fab component={Link} to="/write" className={classes.addButton}>
+                    <AddIcon />
+                </Fab>
+
+                <div id="target" ></div>
             </Box>
 
         </>

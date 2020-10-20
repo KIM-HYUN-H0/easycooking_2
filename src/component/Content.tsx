@@ -13,7 +13,13 @@ const useStyles = makeStyles({
         width: '100%',
         position: 'fixed',
         bottom: 0,
-        zIndex: 1
+        zIndex: 1,
+        textAlign : 'center'
+    },
+    tabs : {
+        width : '100%',
+        display : 'inline-block',
+        maxWidth : '1024px',
     }
 })
 
@@ -22,7 +28,7 @@ const Content = () => {
     return (
         <>
             <Paper className={classes.root}>
-                <Tabs variant="fullWidth">
+                <Tabs variant="fullWidth" className={classes.tabs}>
                     <Tab
                         component={Link}
                         to="/board/0"

@@ -18,10 +18,18 @@ const useStyles = makeStyles((theme) => ({
     },
     flex: {
         flexGrow: 1,
+        width : '100%',
+        textAlign : 'center'
+    },
+    flex2: {
+        flexGrow: 1,
+        textAlign : 'center',
     },
     appbar: {
-        backgroundColor: "#AFDB9F",
-        color: "white",
+        display : 'inline-block',
+        maxWidth : '1024px',
+        backgroundColor : 'white',
+        color : '#AFDB9F'
     },
 }));
 
@@ -66,10 +74,10 @@ const Header = (props:any) => {
                         aria-label="menu">
                         <HomeIcon />
                     </IconButton>
-                    <Typography variant="h6" className={classes.flex}>내 냉장고를 부탁해</Typography>
+                    <Typography variant="h6" className={classes.flex2}>내 냉장고를 부탁해</Typography>
                     <Button color="inherit">
                         {nickname === '' ?
-                            <Link to="/login" style={{ color: 'white', textDecoration: 'none' }} >login</Link>
+                            <Link to="/login" style={{ color: '#AFDB9F', textDecoration: 'none' }} >login</Link>
                             :
                             <>
                             {nickname} 님 안녕하세요.  
