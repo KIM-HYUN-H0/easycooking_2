@@ -4,7 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
     main : {
         width : '100%',
-        marginTop : 30
+        marginTop : 30,
+        maxWidth : '1024px',
+        margin : 'auto',
+        display : 'block'
     }
 })
 

@@ -41,3 +41,16 @@
   font-family: 'KyoboHand';
   font-size: 1.2em;
 }
+/* .MuiCardHeader-content {
+  
+  display : inline-block;
+  width : 100px;
+  text-align : center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height : 1;
+  max-height : 3em;
+  word-wrap : break-word;
+  -webkit-line-clamp: 2;
+} */

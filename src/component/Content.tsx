@@ -27,7 +27,7 @@ const Content = () => {
     const classes = useStyles();
     return (
         <>
-            <Paper className={classes.root}>
+            <Paper elevation={0} className={classes.root}>
                 <Tabs variant="fullWidth" className={classes.tabs}>
                     <Tab
                         component={Link}

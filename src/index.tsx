@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from './modules/index';
+
 import {
   useTheme,
   createMuiTheme,
@@ -16,12 +20,16 @@ const theme = createMuiTheme({
   },
 });
 
+const store = createStore(rootReducer);
+
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-  </MuiThemeProvider>,
+  <Provider store={store}>
+    <MuiThemeProvider theme={theme}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </MuiThemeProvider>,
+  </Provider>,
   document.getElementById('root')
 );
 

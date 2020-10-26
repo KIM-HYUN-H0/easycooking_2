@@ -16,7 +16,6 @@ import axios from "axios";
 
 const useStyles = makeStyles({
     box: {
-        display: 'inline-block',
         marginTop : 10,
         marginLeft : 10
     },
@@ -24,7 +23,7 @@ const useStyles = makeStyles({
         width: 300,
         '&:hover' : {
             opacity:0.5
-        }
+        },
     },
     media: {
         height: 0,

@@ -21,7 +21,10 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2, 4, 3),
     },
     box: {
-        textAlign: 'center',
+        display : 'flex',
+        flexWrap : 'wrap',
+        flex : 'auto',
+        justifyContent : 'center'
     },
     top: {
         marginTop: 10,

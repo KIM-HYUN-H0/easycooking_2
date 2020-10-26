@@ -14,7 +14,9 @@ import Container from '@material-ui/core/Container';
 import Login from './component/User/Login';
 import Register from './component/User/Register';
 import Search from './component/Search';
+import CategoryControl from './component/CategoryControl';
 import { makeStyles } from '@material-ui/core/styles';
+import CategoryControlContainer from './containers/CategoryControlContainer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +48,7 @@ const App = () => {
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Register} />
               <Route exact path="/Search" component={Search} />
+              <Route exact path="/categorycontrol" component={CategoryControlContainer} />
             </Container>
           </Switch>
         </Router>
