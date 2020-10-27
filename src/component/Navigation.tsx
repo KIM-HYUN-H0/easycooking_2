@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     }
 })
 
-const Content = () => {
+const Navigation = () => {
     const classes = useStyles();
     return (
         <>
@@ -47,4 +47,4 @@ const Content = () => {
     )
 }
 
-export default Content;
+export default Navigation;

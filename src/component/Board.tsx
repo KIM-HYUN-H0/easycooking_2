@@ -3,7 +3,6 @@ import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { db } from '../config';
 import CardRecipe from './Repeat/CardRecipe';
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -54,132 +53,30 @@ const useStyles = makeStyles((theme) => ({
         right : '50px',
         backgroundColor : '#AFDB9F',
         color : 'white'
+    },
+    progress : {
+        position : 'fixed',
+        top : '50%',
+        left : '50%',
     }
 }));
 
 
 const Board = (props: any) => {
-    const [pageCount, setPageCount] = useState(0);
-    const [cards, setCards] = useState([]);
-    const [category, setCategory] = useState([]);
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        setCards([]);
-    }, [props.match.params.idx])
-
     const classes = useStyles();
 
-    useEffect(() => {                                       //카테고리 불러오기, redux 를 적용하고 나면 통합할 예정
-        let docs: any = [];
-        db.collection('category').get()
-            .then((data) => {
-                data.forEach((doc) => {
-                    const a: Foo = {
-                        name: doc.data().name,
-                        idx: doc.data().idx
-                    }
-                    docs.push(a);
-                })
-                setCategory(docs);
-
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-    }, [])
-
-    interface Foo {
-        idx: number;
-        name: string;
-    }
-    const LoadRecipe = () => {
-        let docs: any = [];
-        if (Number(props.match.params.idx) === 0) {
-            db.collection('board')
-                .orderBy('idx')
-                .get()
-                .then((data) => {
-                    const last = data.docs.length - (pageCount * 9);
-                    db.collection("board")
-                        .orderBy('idx', 'desc')
-                        .startAt(last)
-                        .limit(12)
-                        .get()
-                        .then((data) => {
-                            data.forEach((doc) => {
-                                const check = cards.findIndex((i: any) => i.idx === doc.data().idx);
-                                if (check === -1) {
-                                    docs.push(doc.data());
-                                }
-                            })
-
-                            setCards((prev) => prev.concat(docs));
-                            setPageCount(prev => prev + 1);
-
-                        })
-                        .catch((err) => {
-                            console.error(err);
-                        })
-                })
-        }
-        else {
-            db.collection("board").where("category", "==", Number(props.match.params.idx))
-                .get()
-                .then((data) => {
-                    const last = data.docs.length - (pageCount * 9);
-                    db.collection("board")
-                        .orderBy('idx', 'desc')
-                        .startAt(last)
-                        .limit(12)
-                        .get()
-                        .then((data) => {
-                            data.forEach((doc) => {
-                                const check = cards.findIndex((i: any) => i.idx === doc.data().idx);
-                                if (check === -1) {
-                                    docs.push(doc.data());
-                                }
-                            })
-
-                            setCards((prev) => prev.concat(docs));
-                            setPageCount(prev => prev + 1);
-
-                        })
-                        .catch((err) => {
-                            console.error(err);
-                        })
-                })
-        }
-    }
-
-
-    const callback = (entries: any, observer: any) => {
-        if (entries[0].isIntersecting) {
-            LoadRecipe();
-        }
-    }
-
-
-    useEffect(() => {
-        const ioOptions = {
-            root: null,                //element | null = viewport
-            threshold: 1
-        }
-        const target = document.querySelector('#target');
-        const io = new IntersectionObserver(callback, ioOptions);
-        io.observe(target!);
-
-        return () => {
-            io.disconnect();
-        }
-    }, [pageCount, props.match.params.idx])
     return (
         <>
+        {props.isLoading ?
+        <CircularProgress className={classes.progress}/>
+        :
+        null
+        }
             <div className={classes.top}>
                 <div className={classes.category}>
                     {
-                        category !== undefined ?
-                            category.map((data: any) => {
+                        props.category.length ?
+                            props.category.map((data: any) => {
                                 return (
                                     <Link to={'/board/' + data.idx} className={classes.categoryItems} style={{ textDecoration: "none", color: 'black' }}>
                                         <Typography>{data.name}</Typography>
@@ -191,8 +88,8 @@ const Board = (props: any) => {
             {/* 레시피 부분 */}
 
             <Box className={classes.box}>
-                {cards !== undefined ?
-                    cards.map((data: any, i: number) => {
+                {props.cards !== undefined ?
+                    props.cards.map((data: any, i: number) => {
                         return (
                             <>
                                 <CardRecipe
@@ -207,7 +104,7 @@ const Board = (props: any) => {
                                 />
                             </>
                         )
-                    }) : <CircularProgress />}
+                    }) : null}
                 <Fab component={Link} to="/write" className={classes.addButton}>
                     <AddIcon />
                 </Fab>

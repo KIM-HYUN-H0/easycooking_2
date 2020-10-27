@@ -1,9 +1,8 @@
 import React from 'react';
 import './App.css';
 import Header from './component/Header'
-import Content from './component/Content';
+import Navigation from './component/Navigation';
 import { BrowserRouter, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Board from './component/Board';
 import { db } from './config';
 import Test from './component/Test';
 import Main from './component/Main';
@@ -14,9 +13,9 @@ import Container from '@material-ui/core/Container';
 import Login from './component/User/Login';
 import Register from './component/User/Register';
 import Search from './component/Search';
-import CategoryControl from './component/CategoryControl';
 import { makeStyles } from '@material-ui/core/styles';
-import CategoryControlContainer from './containers/CategoryControlContainer';
+import BoardContainer from './containers/BoardContainer';
+import DetailContainer from './containers/DetailContainer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,21 +33,20 @@ const App = () => {
       <BrowserRouter>
         <Router>
             <Route path="/" component={Header} />
-            <Route path="/" component={Content} />
+            <Route path="/" component={Navigation} />
           {/* <Header />
           <Content /> */}
           <Switch>
             <Container style={{ marginBottom: '100px' }}>
               <Route exact path="/" component={Main} />
-              <Route exact path="/board/:idx" component={Board} />
+              <Route exact path="/board/:idx" component={BoardContainer} />
               <Route exact path="/test" component={Test} />
               <Route exact path="/write" component={Write} />
-              <Route exact path="/board/detail/:idx" component={Detail} />
+              <Route exact path="/board/detail/:idx" component={DetailContainer} />
               <Route exact path="/crawling" component={Crawling} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Register} />
               <Route exact path="/Search" component={Search} />
-              <Route exact path="/categorycontrol" component={CategoryControlContainer} />
             </Container>
           </Switch>
         </Router>
