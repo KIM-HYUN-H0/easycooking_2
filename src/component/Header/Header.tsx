@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Typography from "@material-ui/core/Typography";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -11,7 +10,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import { auth, db } from '../config'
+
 const useStyles = makeStyles((theme) => ({
     homebutton: {
         marginRight: theme.spacing(2),
@@ -34,33 +33,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Header = (props:any) => {
+    
     const classes = useStyles();
-    const [nickname, setNickname] = useState('');
-    const [anchorEl, setAnchorEl] = useState(null);
+    const {nickname, handleclick, anchorEl, handleclose, logout} = props;
 
-    useEffect(() => {
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                setNickname(user.email!);
-            }
-            else {
-                setNickname('');
-            }
-        })
-    }, [])
-
-    const handleclick = (e: any) => {
-        setAnchorEl(e.currentTarget)
-    }
-    const handleclose = () => {
-        setAnchorEl(null);
-    }
-    const logout = () => {
-        auth.signOut().then(() => {
-            handleclose();
-            props.history.push('/board')
-        })
-    }
     return (
         <div className={classes.flex}>
             <AppBar position="static" className={classes.appbar}>

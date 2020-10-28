@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -12,7 +12,6 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Box from '@material-ui/core/Box';
-import axios from "axios";
 
 const useStyles = makeStyles({
     box: {
@@ -65,7 +64,7 @@ const CardRecipe = (props: {
                         <CardContent>
                             <Typography>{author} 요리사</Typography>
                         </CardContent>
-                    </Link>
+
                     <CardActions disableSpacing>
                         <IconButton color="inherit" aria-label="view">
                             <VisibilityIcon />
@@ -80,6 +79,7 @@ const CardRecipe = (props: {
                             <Typography>{hate}</Typography>
                         </IconButton>
                     </CardActions>
+                    </Link>
                 </Card>
             </Box>
         </>

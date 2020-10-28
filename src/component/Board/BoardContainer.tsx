@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../modules';
-import { loadRecipe } from '../modules/boardControl';
-import { setCategory } from '../modules/categoryControl';
-import Board from '../component/Board';
-import { db } from '../config';
+import { RootState } from '../../modules';
+import { loadRecipe } from '../../modules/boardControl';
+import { setCategory } from '../../modules/categoryControl';
+import Board from './Board';
+import { db } from '../../config';
 
 
 const BoardContainer = (props: any) => {
@@ -38,6 +38,7 @@ const BoardContainer = (props: any) => {
 
     useEffect(() => {
         if (!category.length) {
+            console.log(category, 'd')
             db.collection('category').get()
                 .then((data) => {
                     data.forEach((doc) => {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
 import TextField from "@material-ui/core/TextField";
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -33,31 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = (props: any) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [result, setResult] = useState('');
-
-    const IDChange = (e: any) => {
-        setEmail(e.target.value);
-    }
-    const PWChange = (e: any) => {
-        setPassword(e.target.value);
-    }
-    const handleKeyPress = (e: any) => {
-        if (e.key === "Enter") {
-            Login();
-        }
-    }
-    const Login = async () => {
-        auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
-                props.history.push('/board/0');
-            })
-            .catch((err) => {
-                console.log(err.code, err.Mmssage);
-            })
-    }
-
+    const {IDChange, PWChange, handleKeyPress, Login, result} = props;
     const classes = useStyles();
 
     return (

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { db } from '../config'
+import { db } from '../../config'
 import firebase from 'firebase';
-import Detail from '../component/Detail';
+import Detail from './Detail';
 
 const DetailContainer = (props:any) => {
     const [data, setData] = useState<any>();

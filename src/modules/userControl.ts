@@ -8,12 +8,11 @@ const LOADNICK = "userControl/LOADNICK" as const;
 export type userType = {
   nickname:string
 };
-type userControlState = userType[];
-const initialState: userControlState = [];
+const initialState:userType = {nickname : ''};
 //  ---- state 정의 ----
 
 //  ---- action 정의 ----
-export const setuser = (nickname:string) => ({
+export const loadNick = (nickname:string) => ({
   type : LOADNICK,
   payload : {
     nickname
@@ -21,7 +20,7 @@ export const setuser = (nickname:string) => ({
 })
 
 type userControlAction = 
-| ReturnType<typeof setuser>;
+| ReturnType<typeof loadNick>;
 //  ---- action 정의 ----
 
 // ---- api action ----
@@ -30,7 +29,7 @@ type userControlAction =
 
 // ---- reducer 정의 ---- //
 export default function reducer(
-  state: userControlState = initialState,
+  state: userType = initialState,
   action: userControlAction
 ) {
   switch (action.type) {
