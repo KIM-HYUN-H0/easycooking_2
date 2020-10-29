@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import Navigation from './component/Navigation/Navigation';
 import { BrowserRouter, BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { db } from './config';
 import Test from './component/Test/Test';
 import Main from './component/Main/Main';
 import Crawling from './component/Test/Crawling';
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
-  const classes = useStyles();
+  // const classes = useStyles();
 
   return (
     <>

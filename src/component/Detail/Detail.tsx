@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Viewer } from "@toast-ui/react-editor";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -13,10 +13,8 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import { db } from '../../config'
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import firebase from 'firebase';
 import Modal from "@material-ui/core/Modal";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Detail = (props: any) => {
     const classes = useStyles();
-    const {deleteContent, handleopen, handleclose, like, hate, open, data } = props;
+    const {deleteContent, handleopen, handleclose, like, open, data } = props;
     return (
         <>
             <div style={{ textAlign: 'center' }}>
@@ -111,14 +109,6 @@ const Detail = (props: any) => {
                                     >
                                         <ThumbUpAltIcon />
                                         <Typography>{data.like}</Typography>
-                                    </IconButton>
-                                    <IconButton
-                                        onClick={hate}
-                                        color="primary"
-                                        aria-label="share"
-                                    >
-                                        <ThumbDownIcon />
-                                        <Typography>{data.hate}</Typography>
                                     </IconButton>
                                 </CardActions>
                                 <CardContent>

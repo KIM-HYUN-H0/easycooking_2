@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Modal from "@material-ui/core/Modal";
-import Button from "@material-ui/core/Button";
+import React from 'react';
 import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import CardRecipe from '../CardRecipe/CardRecipe';
@@ -78,7 +76,7 @@ const Board = (props: any) => {
                         props.category.length ?
                             props.category.map((data: any) => {
                                 return (
-                                    <Link to={'/board/' + data.idx} className={classes.categoryItems} style={{ textDecoration: "none", color: 'black' }}>
+                                    <Link to={'/board/' + data.idx} className={classes.categoryItems} style={{ textDecoration: "none", color: 'black' }} onClick={props.boardReset}>
                                         <Typography>{data.name}</Typography>
                                     </Link>
                                 )
@@ -99,7 +97,6 @@ const Board = (props: any) => {
                                     date={data.date}
                                     view={data.view}
                                     like={data.like}
-                                    hate={data.hate}
                                     thumbnail={data.thumbnail}
                                 />
                             </>

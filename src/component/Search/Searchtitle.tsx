@@ -3,7 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import CardRecipe from "../CardRecipe/CardRecipe";
+// import CardRecipe from "../CardRecipe/CardRecipe";
 import { db } from '../../config';
 
 const useStyles = makeStyles({
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 })
 const Searchtitle = () => {
     const [search, setSearch] = useState<any>();
-    const [result, setResult] = useState();
+    // const [result, setResult] = useState();
     const classes = useStyles();
 
     const keyPress = (e: any) => {

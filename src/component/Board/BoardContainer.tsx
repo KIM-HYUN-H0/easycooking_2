@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../modules';
-import { loadRecipe } from '../../modules/boardControl';
+import { loadRecipe, boardReset } from '../../modules/boardControl';
 import { setCategory } from '../../modules/categoryControl';
 import Board from './Board';
 import { db } from '../../config';
@@ -10,6 +10,8 @@ import { db } from '../../config';
 const BoardContainer = (props: any) => {
     const [pageCount, setPageCount] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [endCheck, setEndCheck] = useState(true);
+
 
     const board = useSelector((state: RootState) => state.boardControl);
     const category = useSelector((state: RootState) => state.categoryControl);
@@ -38,7 +40,6 @@ const BoardContainer = (props: any) => {
 
     useEffect(() => {
         if (!category.length) {
-            console.log(category, 'd')
             db.collection('category').get()
                 .then((data) => {
                     data.forEach((doc) => {
@@ -49,64 +50,79 @@ const BoardContainer = (props: any) => {
     }, [])
 
     const LoadRecipe = () => {
-        setLoading(true);
-        if (Number(props.match.params.idx) === 0) {
-            db.collection('board')
-                .orderBy('idx')
-                .get()
-                .then((data) => {
-                    const last = data.docs.length - (pageCount * 9);
-                    db.collection("board")
-                        .orderBy('idx', 'desc')
-                        .startAt(last)
-                        .limit(12)
-                        .get()
-                        .then((data) => {
-                            let datas:any = [];
-                            data.forEach((doc) => {
-                                datas.push(doc.data())
+        if (endCheck) {
+            setLoading(true);
+            if (Number(props.match.params.idx) === 0) {
+                db.collection('board')
+                    .orderBy('idx')
+                    .get()
+                    .then((data) => {
+                        console.log(data);
+                        const last = data.docs.length - (pageCount * 9);
+                        db.collection("board")
+                            .orderBy('idx', 'desc')
+                            .startAt(last)
+                            .limit(12)
+                            .get()
+                            .then((data) => {
+                                let datas: any = [];
+                                if (data.docs.length === 0) {
+                                    setEndCheck(false);
+                                }
+                                data.forEach((doc) => {
+                                    datas.push(doc.data())
+                                })
+                                dispatch(loadRecipe(datas));
+                                setPageCount(prev => prev + 1);
+                                setLoading(false);
                             })
-                            dispatch(loadRecipe(datas));
-                            setPageCount(prev => prev + 1);
-                            setLoading(false);
-                        })
-                        .then(() => {
-
-                        })
-                        .catch((err) => {
-                            console.error(err);
-                        })
-                })
-        }
-        else {
-            db.collection("board").where("category", "==", Number(props.match.params.idx))
-                .get()
-                .then((data) => {
-                    const last = data.docs.length - (pageCount * 9);
-                    db.collection("board")
-                        .orderBy('idx', 'desc')
-                        .startAt(last)
-                        .limit(12)
-                        .get()
-                        .then((data) => {
-                            let datas:any = [];
-                            data.forEach((doc) => {
-                                datas.push(doc.data())
+                            .catch((err) => {
+                                console.error(err);
                             })
-                            dispatch(loadRecipe(datas));
-                            setPageCount(prev => prev + 1);
-                            setLoading(false);
-                        })
-                        .catch((err) => {
-                            console.error(err);
-                        })
-                })
+                    })
+            }
+            else {
+                db.collection("board").where("category", "==", Number(props.match.params.idx))
+                    .get()
+                    .then((data) => {
+                        const last = data.docs.length - (pageCount * 9);
+                        db.collection("board")
+                            .where("category", "==", Number(props.match.params.idx))
+                            .orderBy('idx', 'desc')
+                            .startAt(last)
+                            .limit(12)
+                            .get()
+                            .then((data) => {
+                                let datas: any = [];
+                                if (data.docs.length === 0) {
+                                    setEndCheck(false);
+                                }
+                                data.forEach((doc) => {
+                                    datas.push(doc.data())
+                                })
+                                dispatch(loadRecipe(datas));
+                                setPageCount(prev => prev + 1);
+                                setLoading(false);
+                            })
+                            .catch((err) => {
+                                console.error(err);
+                            })
+                    })
+            }
         }
     }
-
+    const boardResets = () => {
+        dispatch(boardReset());
+        setPageCount(0);
+    }
     return (
         <>
-            <Board cards={board} isLoading={loading} category={category} />
+            <Board 
+            cards={board} 
+            isLoading={loading} 
+            category={category} 
+            boardReset={boardResets}
+            />
         </>
     )
 }

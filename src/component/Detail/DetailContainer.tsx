@@ -24,9 +24,11 @@ const DetailContainer = (props:any) => {
             .get()
             .then((data) => {
                 data.forEach((doc) => {
-                    db.collection('board').doc(doc.id)
+                    db.collection('board')
+                        .doc(doc.id)
                         .update({ view: firebase.firestore.FieldValue.increment(1) })
-                        .then((data) => {
+                        .then((data2) => {
+                            console.log(data2);
                             setData(doc.data()!)
                             setDoc(doc.id!);
                         })
@@ -38,11 +40,6 @@ const DetailContainer = (props:any) => {
             })
     }
 
-    const hate = () => {
-        db.collection('board').doc(doc)
-            .update({ hate: firebase.firestore.FieldValue.increment(1) })
-            .then(() => { load() })
-    }
     const like = () => {
         db.collection('board').doc(doc)
             .update({ like: firebase.firestore.FieldValue.increment(1) })
@@ -69,7 +66,6 @@ const DetailContainer = (props:any) => {
         handleopen={handleopen}
         handleclose={handleclose}
         like={like}
-        hate={hate}
         open={open}
         data={data}
         />
