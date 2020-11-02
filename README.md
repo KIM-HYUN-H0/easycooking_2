@@ -17,7 +17,7 @@
 #### ETC
 - [Material-UI](#material-ui)
 - [Tui-editor](#tui-editor)
-- [Redux ( Ducks 패턴으록 구현 )](#redux)
+- [Redux ( Ducks 패턴으로 구현 )](#redux-(-ducks-패턴으로-구현-))
 - [Intersection Observer ( Infinite Scroll 구현 )](#intersection-observer)
 
 ### [미흡한 부분](#미흡한-부분)
