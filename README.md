@@ -12,15 +12,15 @@
 - [React](#react)
 
 #### Back
-- Firebase
+- [Firebase](#firebase)
 
 #### ETC
-- Material-UI
-- Tui-editor
-- Redux ( Ducks 패턴으록 구현 )
-- Intersection Observer ( Infinite Scroll 구현 )
+- [Material-UI](#material-ui)
+- [Tui-editor](#tui-editor)
+- [Redux ( Ducks 패턴으록 구현 )](#redux)
+- [Intersection Observer ( Infinite Scroll 구현 )](#intersection-observer)
 
-### 미흡한 부분
+### [미흡한 부분](#미흡한-부분)
 - Typescript 로 만들기만 했고 공부가 미흡해 적용하지 못함 ( Redux를 시작으로 개선중 )
 - 디자인
 - 테스트 부족
@@ -40,15 +40,15 @@ https://easycooking-f4984.firebaseapp.com/
   - Function Component, Hooks 
 
 #### Back
-- Firebase
+- ##### Firebase
   - Node.js 로 백엔드까지 한번에 구성하기에는 실력이 많이 미흡하다고 느껴 프론트에 집중하고자 파이어베이스를 사용하였습니다. 
   - Auth(인증), Firestore(데이터베이스), Storage(사진 업로드) 기능을 사용하였고, 요금제 업그레이드를 하지 않아서 Function은 사용하지 않았습니다.
 
 #### ETC
-- Material-UI
+- ##### Material-UI
   - Material-UI 공식 사이트를 참고하여 디자인 대부분에 사용되었습니다. 바꾸고싶은 부분은 MakeStyles를 사용하였습니다.
   
-- Tui-editor
+- ##### Tui-editor
   - 위지윅 에디터를 찾아보다가, 제일 먼저 발견하게 되어 사용하게 되었습니다. 
   - 기능은 Image 업로드 기능만 사용하였고, 그에 대한 코드는 다음과 같습니다.
   ```
@@ -84,10 +84,10 @@ https://easycooking-f4984.firebaseapp.com/
       }
   ```
   
-- Redux ( Ducks 패턴으로 구현 )
+- ##### Redux ( Ducks 패턴으로 구현 )
   - Redux는 이해하기 굉장히 어려웠는데, 프로젝트의 디렉토리 구조도 개선이 필요했고, Action, store, reducer 전부 나눠져서 관리해야 하는 것도 Mobx 에 비해서 까다롭다고 느껴졌습니다. 하지만 Ducks 패턴을 알고나니 학습속도가 빨라져서 Redux 학습이라는 목표를 성공시킬 수 있었습니다.
   
-- Intersection Observer ( Infinite Scroll 구현 )
+- ##### Intersection Observer ( Infinite Scroll 구현 )
   - 게시물들을 불러올 때 뉴스피드처럼 무한스크롤 기능을 구현하고 싶었습니다. 얼추 구현은 했는데, 솔직히 원활하지 않다고 생각합니다. 다른 글들은 타겟을 게시물의 맨 마지막 글로 하는데, 이부분이 조금 힘들어서 아래 코드처럼 하단부분에 div 태그를 줘서 타겟으로 잡았습니다. 
 ```
 //Board.tsx
