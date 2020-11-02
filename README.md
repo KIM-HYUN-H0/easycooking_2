@@ -9,21 +9,21 @@
 
 ### 개발환경
 #### Front
-- ##### [React](#react)
+- [React](#react)
 
 #### Back
-- ##### Firebase
+- Firebase
 
 #### ETC
-- ##### Material-UI
-- ##### Tui-editor
-- ##### Redux ( Ducks 패턴으록 구현 )
-- ##### Intersection Observer ( Infinite Scroll 구현 )
+- Material-UI
+- Tui-editor
+- Redux ( Ducks 패턴으록 구현 )
+- Intersection Observer ( Infinite Scroll 구현 )
 
 ### 미흡한 부분
-- ##### Typescript 로 만들기만 했고 공부가 미흡해 적용하지 못함 ( Redux를 시작으로 개선중 )
-- ##### 디자인
-- ##### 테스트 부족
+- Typescript 로 만들기만 했고 공부가 미흡해 적용하지 못함 ( Redux를 시작으로 개선중 )
+- 디자인
+- 테스트 부족
 
 ### 배포 
 https://easycooking-f4984.firebaseapp.com/
