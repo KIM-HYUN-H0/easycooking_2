@@ -37,7 +37,7 @@ https://easycooking-f4984.firebaseapp.com/
 ### 개발환경
 #### Front
 - ##### React
-  - Function Component, Hooks 
+  - 이번 프로젝트에는 Function Component와 Hooks를 사용하였습니다. 공식문서와 각종 영상을 찾아보며 Hooks로 Lifecycle 을 구현하는 것을 학습 후 사용하였습니다.
 
 #### Back
 - ##### Firebase
