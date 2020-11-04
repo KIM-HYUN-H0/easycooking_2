@@ -2,11 +2,14 @@ import React, {useState, useEffect} from 'react';
 import { db } from '../../config'
 import firebase from 'firebase';
 import Detail from './Detail';
+import { boardReset } from '../../modules/boardControl';
+import { useDispatch } from 'react-redux';
 
 const DetailContainer = (props:any) => {
     const [data, setData] = useState<any>();
     const [doc, setDoc] = useState<any>(null);
     const [open, setOpen] = useState(0);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         load();
@@ -47,11 +50,11 @@ const DetailContainer = (props:any) => {
     }
 
     const deleteContent = () => {
-        alert('삭제되었습니다.');
         db.collection('board').doc(doc)
             .delete()
             .then(() => {
-                console.log('delete')
+                dispatch(boardReset());
+                props.history.push('/board/0');
             })
             .catch((err) => {
                 console.error(err);
