@@ -8,15 +8,13 @@ import { setCategory } from '../../modules/categoryControl';
 
 const WriteContainer = () => {
 
+    const nickname = useSelector((state: RootState) => state.userControl.nickname);
     const content: any = createRef();
     const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
     const [needs, setNeeds] = useState('');
     const [sauce, setSauce] = useState('');
     const [category, selectCategory] = useState('');
     const [source, setSource] = useState('');
-    const [thumbnail, setThumbnail] = useState('');
-
     
     const categories = useSelector((state: RootState) => state.categoryControl);
     const dispatch = useDispatch();
@@ -53,17 +51,18 @@ const WriteContainer = () => {
             })
             .then(() => {
                 const RecipeData = {
-                    author: '',
+                    author: nickname,
                     title: title,
                     category: category,
                     content: content_true,
                     needs: [],
                     sauce: [],
                     source: source,
-                    thumbnail: '',//thumb.length === null ? '썸넬' : thumb[thumb.length-1],
+                    thumbnail: thumb.length === null ? '' : thumb[thumb.length-1],
                     view: 0,
                     like: 0,
                     hate: 0,
+                    date : firebase.firestore.FieldValue.serverTimestamp(),
                     idx: idx
                 }
                 db.collection('board').add(RecipeData)

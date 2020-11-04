@@ -64,12 +64,16 @@ const CardRecipe = (props: {
                 <Card className={classes.root}>
                     <Link to={"/board/detail/" + idx} style={{ textDecoration: 'none', color: 'black' }}>
                         <CardHeader titleTypographyProps={{ variant: 'h6' }} title={title} />
-                        <CardMedia
-                            className={classes.media}
-                            image={thumbnail}
-                            title={title}
-                            style={{ border: '1px solid gray' }}
-                        ></CardMedia>
+                        {thumbnail === '' ?
+                            null
+                            :
+                            <CardMedia
+                                className={classes.media}
+                                image={thumbnail}
+                                title={title}
+                                style={{ border: '1px solid gray' }}
+                            ></CardMedia>}
+
                         <CardContent className={classes.wrapper}>
                             <FaceIcon />
                             <Typography className={classes.author}>{author}</Typography>

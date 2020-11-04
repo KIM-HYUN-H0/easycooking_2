@@ -57,8 +57,10 @@ const BoardContainer = (props: any) => {
                     .orderBy('idx')
                     .get()
                     .then((data) => {
-                        console.log(data);
-                        const last = data.docs.length - (pageCount * 9);
+                        console.log(pageCount);
+                        const last = pageCount === 0 ? data.docs[data.docs.length-1].data().idx : pageCount;
+                        //pagecount는 idx와 정비례하지만 limit는 비어있는건 그냥 스킵하기때문에 .. 고로 last변수를 수정하는게맞다.
+                        //pagecount를 밑에서 재정의해주고, pagecount가 0일때는 last변수를 사용할 수 있게 
                         db.collection("board")
                             .orderBy('idx', 'desc')
                             .startAt(last)
@@ -66,14 +68,16 @@ const BoardContainer = (props: any) => {
                             .get()
                             .then((data) => {
                                 let datas: any = [];
-                                if (data.docs.length === 0) {
-                                    setEndCheck(false);
-                                }
                                 data.forEach((doc) => {
                                     datas.push(doc.data())
                                 })
                                 dispatch(loadRecipe(datas));
-                                setPageCount(prev => prev + 1);
+                                if(data.docs[data.docs.length-1].data().idx === 0) {
+                                    setEndCheck(false);
+                                }
+                                else {
+                                    setPageCount(data.docs[data.docs.length-1].data().idx - 1);
+                                }
                                 setLoading(false);
                             })
                             .catch((err) => {
@@ -85,7 +89,7 @@ const BoardContainer = (props: any) => {
                 db.collection("board").where("category", "==", Number(props.match.params.idx))
                     .get()
                     .then((data) => {
-                        const last = data.docs.length - (pageCount * 9);
+                        const last = pageCount === 0 ? data.docs[data.docs.length-1].data().idx : pageCount;
                         db.collection("board")
                             .where("category", "==", Number(props.match.params.idx))
                             .orderBy('idx', 'desc')
@@ -94,14 +98,16 @@ const BoardContainer = (props: any) => {
                             .get()
                             .then((data) => {
                                 let datas: any = [];
-                                if (data.docs.length === 0) {
-                                    setEndCheck(false);
-                                }
                                 data.forEach((doc) => {
                                     datas.push(doc.data())
                                 })
                                 dispatch(loadRecipe(datas));
-                                setPageCount(prev => prev + 1);
+                                if(data.docs[data.docs.length-1].data().idx === 0) {
+                                    setEndCheck(false);
+                                }
+                                else {
+                                    setPageCount(data.docs[data.docs.length-1].data().idx - 1);
+                                }
                                 setLoading(false);
                             })
                             .catch((err) => {

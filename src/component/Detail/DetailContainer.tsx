@@ -24,11 +24,11 @@ const DetailContainer = (props:any) => {
             .get()
             .then((data) => {
                 data.forEach((doc) => {
+                    console.log(doc.data());
                     db.collection('board')
                         .doc(doc.id)
                         .update({ view: firebase.firestore.FieldValue.increment(1) })
                         .then((data2) => {
-                            console.log(data2);
                             setData(doc.data()!)
                             setDoc(doc.id!);
                         })
