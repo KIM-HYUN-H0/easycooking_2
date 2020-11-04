@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import Modal from "@material-ui/core/Modal";
+import moment from 'moment';
 
 const useStyles = makeStyles((theme) => ({
     box: {
@@ -84,7 +85,7 @@ const Detail = (props: any) => {
                     <>
                         <Box className={classes.box} m={0}>
                             <Card className={classes.root}>
-                                <CardHeader title={data.title} subheader={'날짜'} />
+                                <CardHeader title={data.title} subheader={moment(data.date.toDate()).format('YYYY-MM-DD HH:mm')} />
                                 <CardMedia
                                     className={classes.media}
                                     image={data.thumbnail}
