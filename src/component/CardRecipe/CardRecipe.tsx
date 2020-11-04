@@ -63,7 +63,7 @@ const CardRecipe = (props: {
             <Box className={classes.box} m={0} >
                 <Card className={classes.root}>
                     <Link to={"/board/detail/" + idx} style={{ textDecoration: 'none', color: 'black' }}>
-                        <CardHeader titleTypographyProps={{ variant: 'h6' }} title={title} />
+                        <CardHeader titleTypographyProps={{ variant: 'h6' }} title={`${title}`} />
                         {thumbnail === '' ?
                             null
                             :

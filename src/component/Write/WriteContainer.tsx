@@ -1,12 +1,13 @@
-import React, {useEffect, useState, createRef} from 'react';
+import React, { useEffect, useState, createRef } from 'react';
 import { db, dbs } from '../../config'
 import Write from './Write';
 import firebase from 'firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../modules';
 import { setCategory } from '../../modules/categoryControl';
+import {boardReset} from '../../modules/boardControl';
 
-const WriteContainer = () => {
+const WriteContainer = (props:any) => {
 
     const nickname = useSelector((state: RootState) => state.userControl.nickname);
     const content: any = createRef();
@@ -15,7 +16,7 @@ const WriteContainer = () => {
     const [sauce, setSauce] = useState('');
     const [category, selectCategory] = useState('');
     const [source, setSource] = useState('');
-    
+
     const categories = useSelector((state: RootState) => state.categoryControl);
     const dispatch = useDispatch();
 
@@ -42,6 +43,7 @@ const WriteContainer = () => {
     const SetRecipe = () => {
         const content_true = content.current.getInstance().getHtml();
         const thumb = content_true.match(/http([^>\"']+)/g);
+        console.log(thumb);
         let idx = 0;
         db.collection('autoIncrement').where('field', '==', 'board')
             .get().then((data: any) => {
@@ -56,18 +58,18 @@ const WriteContainer = () => {
                     category: category,
                     content: content_true,
                     needs: [],
-                    sauce: [],
                     source: source,
-                    thumbnail: thumb.length === null ? '' : thumb[thumb.length-1],
+                    thumbnail: thumb === null ? '' : thumb[thumb.length - 1],
                     view: 0,
                     like: 0,
                     hate: 0,
-                    date : firebase.firestore.FieldValue.serverTimestamp(),
+                    date: firebase.firestore.FieldValue.serverTimestamp(),
                     idx: idx
                 }
                 db.collection('board').add(RecipeData)
                     .then((res) => {
-                        console.log('complete, ', res);
+                        dispatch(boardReset());
+                        props.history.push('/board/0');
                     })
                     .catch((err) => {
                         console.error(err);
@@ -93,18 +95,18 @@ const WriteContainer = () => {
         }
     }, [])
 
-    return(
+    return (
         <>
             <Write
-            setTitle={setTitle}
-            setCategory={selectCategory}
-            setSource={setSource}
-            SetRecipe={SetRecipe}
-            uploadImage={uploadImage}
-            category={category}
-            categories={categories}
-            content={content}
-             />
+                setTitle={setTitle}
+                setCategory={selectCategory}
+                setSource={setSource}
+                SetRecipe={SetRecipe}
+                uploadImage={uploadImage}
+                category={category}
+                categories={categories}
+                content={content}
+            />
         </>
     )
 }

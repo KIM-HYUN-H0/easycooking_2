@@ -32,7 +32,6 @@ export const loadRecipe = (list: {
   view: number;
   like: number;
   needs: any;
-  sauce: any;
   source: string;
   thumbnail: string;
 }) => ({
