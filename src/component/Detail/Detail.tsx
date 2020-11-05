@@ -12,6 +12,7 @@ import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Typography from "@material-ui/core/Typography";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -39,13 +40,18 @@ const useStyles = makeStyles((theme) => ({
         border: "2px solid #000",
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        textAlign : 'center'
+        textAlign: 'center'
     },
+    needsWrapper : {
+        display : 'flex',
+        flexDirection : 'row',
+        justifyContent : 'space-around'
+    }
 }));
 
 const Detail = (props: any) => {
     const classes = useStyles();
-    const {deleteContent, handleopen, handleclose, like, open, data } = props;
+    const { deleteContent, handleopen, handleclose, like, open, data } = props;
     return (
         <>
             <div style={{ textAlign: 'center' }}>
@@ -96,7 +102,7 @@ const Detail = (props: any) => {
                                     <Typography>{data.author} 요리사</Typography>
                                 </CardContent>
                                 <CardContent>
-                                    <Typography>출처 {data.source}</Typography>
+                                    <a href={data.source} target="_blank" style={{ color: 'black', textDecoration: 'none' }}><Typography>출처 {data.source}</Typography></a>
                                 </CardContent>
                                 <CardActions disableSpacing>
                                     <IconButton color="inherit" aria-label="view">
@@ -113,6 +119,20 @@ const Detail = (props: any) => {
                                     </IconButton>
                                 </CardActions>
                                 <CardContent>
+                                    <hr />
+                                    <Typography>재료</Typography>
+                                    <div className={classes.needsWrapper}>
+                                    {data.needs.length > 0 ?
+                                        data.needs.map((need: string) => {
+                                            return (
+                                                <>
+                                                    <Typography>{need}</Typography>
+                                                </>
+                                            )
+                                        })
+                                        :
+                                        null}
+                                    </div>
                                     <hr />
                                     <div id="viewer">
                                         <Viewer initialValue={data.content} />

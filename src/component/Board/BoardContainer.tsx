@@ -57,7 +57,7 @@ const BoardContainer = (props: any) => {
                     .orderBy('idx')
                     .get()
                     .then((data) => {
-                        console.log(pageCount);
+
                         const last = pageCount === 0 ? data.docs[data.docs.length-1].data().idx : pageCount;
                         //pagecount는 idx와 정비례하지만 limit는 비어있는건 그냥 스킵하기때문에 .. 고로 last변수를 수정하는게맞다.
                         //pagecount를 밑에서 재정의해주고, pagecount가 0일때는 last변수를 사용할 수 있게 
@@ -69,7 +69,9 @@ const BoardContainer = (props: any) => {
                             .then((data) => {
                                 let datas: any = [];
                                 data.forEach((doc) => {
-                                    datas.push(doc.data())
+                                    if(board.findIndex((a:any) => a.idx === doc.data().idx) === -1) {
+                                        datas.push(doc.data())
+                                    }
                                 })
                                 dispatch(loadRecipe(datas));
                                 if(data.docs[data.docs.length-1].data().idx === 0) {
@@ -85,10 +87,11 @@ const BoardContainer = (props: any) => {
                             })
                     })
             }
-            else {
+            else {                                              //수정필요 where랑 orderby가 같이안먹힘
                 db.collection("board").where("category", "==", Number(props.match.params.idx))
                     .get()
                     .then((data) => {
+                        console.log(pageCount);
                         const last = pageCount === 0 ? data.docs[data.docs.length-1].data().idx : pageCount;
                         db.collection("board")
                             .where("category", "==", Number(props.match.params.idx))
@@ -99,7 +102,9 @@ const BoardContainer = (props: any) => {
                             .then((data) => {
                                 let datas: any = [];
                                 data.forEach((doc) => {
-                                    datas.push(doc.data())
+                                    if(board.findIndex((a:any) => a.idx === doc.data().idx) === -1) {
+                                        datas.push(doc.data())
+                                    }
                                 })
                                 dispatch(loadRecipe(datas));
                                 if(data.docs[data.docs.length-1].data().idx === 0) {
