@@ -91,7 +91,6 @@ const BoardContainer = (props: any) => {
                 db.collection("board").where("category", "==", Number(props.match.params.idx))
                     .get()
                     .then((data) => {
-                        console.log(pageCount);
                         const last = pageCount === 0 ? data.docs[data.docs.length-1].data().idx : pageCount;
                         db.collection("board")
                             .where("category", "==", Number(props.match.params.idx))
@@ -101,18 +100,24 @@ const BoardContainer = (props: any) => {
                             .get()
                             .then((data) => {
                                 let datas: any = [];
-                                data.forEach((doc) => {
-                                    if(board.findIndex((a:any) => a.idx === doc.data().idx) === -1) {
-                                        datas.push(doc.data())
-                                    }
-                                })
-                                dispatch(loadRecipe(datas));
-                                if(data.docs[data.docs.length-1].data().idx === 0) {
-                                    setEndCheck(false);
+                                if(data.size === 0) {
+                                    setEndCheck(false)
                                 }
                                 else {
-                                    setPageCount(data.docs[data.docs.length-1].data().idx - 1);
+                                    data.forEach((doc) => {
+                                        if(board.findIndex((a:any) => a.idx === doc.data().idx) === -1) {
+                                            datas.push(doc.data())
+                                        }
+                                    })
+                                    dispatch(loadRecipe(datas));
+                                    if(data.docs[data.docs.length-1].data().idx === 0) {
+                                        setEndCheck(false);
+                                    }
+                                    else {
+                                        setPageCount(data.docs[data.docs.length-1].data().idx - 1);
+                                    }
                                 }
+                                
                                 setLoading(false);
                             })
                             .catch((err) => {
@@ -124,7 +129,9 @@ const BoardContainer = (props: any) => {
     }
     const boardResets = () => {
         dispatch(boardReset());
+        setEndCheck(true);
         setPageCount(0);
+        
     }
     return (
         <>
