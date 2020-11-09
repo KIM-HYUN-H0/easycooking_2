@@ -8,7 +8,7 @@ import firebase from 'firebase';
 
 const Crawling = () => {
     const [url, setURL] = useState(0);
-    const CrawlingSync = (RecipeData: any, urlA:number) => {
+    const CrawlingSync = (RecipeData: any, urlA: number) => {
         return new Promise((resolve, reject) => {
             request(
                 {
@@ -51,19 +51,19 @@ const Crawling = () => {
         })
     }
     const doCrawlingWrapper = () => {
-        let i = url;
+        let i = 6829021;
         let haha = setInterval(() => {
-            if(i >= url + 100) {
+            if (i >= 6899018) {
                 clearInterval(haha);
             }
             else {
                 doCrawling(i);
                 i++;
             }
-        }, 5000)
+        }, 10000)
         console.log('end')
     }
-    const doCrawling = async (i:number) => {
+    const doCrawling = async (i: number) => {
         const RecipeData = {
             author: '',
             title: '',
@@ -80,6 +80,7 @@ const Crawling = () => {
             date: firebase.firestore.FieldValue.serverTimestamp()
         }
 
+
         db.collection('autoIncrement').where('field', '==', 'board')
             .get().then((data: any) => {
                 data.forEach((doc: any) => {
@@ -94,13 +95,46 @@ const Crawling = () => {
                     })
             })
             .then(() => {
-                db.collection('board').add(RecipeData)
-                    .then((res) => {
-                        console.log('complete, ', res);
-                    })
-                    .catch((err) => {
-                        console.error(err);
-                    })
+                if ((RecipeData.content !== '') && (RecipeData.title !== '') && (RecipeData.needs.length !== 0) && (RecipeData.thumbnail !== '')) {
+
+
+                    db.collection('board').add(RecipeData)
+                        .then((res) => {
+                            let words: any = [];
+                            RecipeData.title.split(' ').map((word) => {
+                                for (let i = 0; i < word.length; i++) {
+                                    for (let j = i + 1; j <= word.length; j++) {
+                                        if (words.findIndex((a: any) => a.title === word.slice(i, j)) === -1) {
+                                            words.push({ title: word.slice(i, j), idx: RecipeData.idx })
+                                        }
+                                    }
+                                }
+                            })
+                            words.map((word: any) => {
+                                db.collection('board_title_search').where('title', '==', word.title)
+                                    .get()
+                                    .then((result: any) => {
+                                        if (result.size > 0) {
+                                            result.forEach((b: any) => {
+                                                db.collection('board_title_search').doc(b.id)
+                                                    .update({ idx: [...b.data().idx, word.idx] })
+                                                console.log('넣었어')
+                                            })
+                                        }
+                                        else {
+                                            db.collection('board_title_search')
+                                                .add({ title: word.title, idx: [word.idx] })
+                                            console.log('새로만들었어')
+                                        }
+                                    })
+                            })
+                            console.log('complete, ', res);
+
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                        })
+                }
             })
             .then(() => {
                 db.collection('autoIncrement').doc('board')

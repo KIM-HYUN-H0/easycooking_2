@@ -63,6 +63,17 @@ const Test = () => {
             console.log(data.size);
         })
     }
+    const test6 = () => {
+        // db.collection('board')
+        // // .where('title', '==', '볶음류 테스트')
+        // .orderBy('title')
+        // .startAt('감자')
+        // .endAt('감자' + '\uf8ff')
+        // .get()
+        // .then((data) => {
+        //     console.log(data.size);
+        // })
+    }
 
     return (
         <>
@@ -71,6 +82,7 @@ const Test = () => {
             <button type="submit" onClick={test3}>업데이트</button>
             <button type="submit" onClick={test4}>업로드</button>
             <button type="submit" onClick={test5}>체크</button>
+            <button type="submit" onClick={test6}>검색기능</button>
             {list.length > 0 ?
                 list.map((data: any) => {
                     return (

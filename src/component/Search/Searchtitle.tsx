@@ -32,6 +32,7 @@ const Searchtitle = () => {
         }
     }
     const searchSubmit = () => {
+        setResult([]);
         db.collection('board_title_search')
             .where('title', '==', search)
             .get()
@@ -43,7 +44,9 @@ const Searchtitle = () => {
                         .get()
                         .then((realDocs) => {
                             realDocs.forEach((realdoc:any) => {
-                                setResult(prev => prev.concat(realdoc.data()))
+                                if(result.findIndex((a:any) => a.idx === realdoc.data().idx) === -1) {
+                                    setResult(prev => prev.concat(realdoc.data()))
+                                }
                             })
                         })
                     })

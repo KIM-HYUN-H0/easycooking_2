@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import TabContext from '@material-ui/lab/TabContext';
 import { makeStyles } from '@material-ui/core/styles';
 import Searchtitle from "./Searchtitle";
+import Searchneed from "./Searchneed";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -35,7 +36,7 @@ const Search = () => {
                     <Searchtitle />
                 </TabPanel>
                 <TabPanel value="2">
-                    {/* <Searchneed /> */}
+                    <Searchneed />
                 </TabPanel>
             </TabContext>
         </>
