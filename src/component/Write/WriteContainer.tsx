@@ -85,18 +85,16 @@ const WriteContainer = (props: any) => {
                                         result.forEach((b: any) => {
                                             db.collection('board_title_search').doc(b.id)
                                                 .update({ idx: [...b.data().idx, word.idx] })
-                                            console.log('넣었어')
                                         })
                                     }
                                     else {
                                         db.collection('board_title_search')
                                             .add({ title: word.title, idx: [word.idx] })
-                                        console.log('새로만들었어')
                                     }
                                 })
                         })
                         dispatch(boardReset());
-                        // props.history.push('/board/0');
+                        props.history.push('/board/0');
                     })
                     .catch((err) => {
                         console.error(err);

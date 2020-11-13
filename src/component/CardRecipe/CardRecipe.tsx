@@ -65,7 +65,12 @@ const CardRecipe = (props: {
                     <Link to={"/board/detail/" + idx} style={{ textDecoration: 'none', color: 'black' }}>
                         <CardHeader titleTypographyProps={{ variant: 'h6' }} title={`${title}`} />
                         {thumbnail === '' ?
-                            null
+                            <CardMedia
+                            className={classes.media}
+                            image={"http://placehold.it/300X170/AFDB9F/ffffff?text=Image+None"}
+                            title={title}
+                            style={{ border: '1px solid gray' }}
+                            ></CardMedia>
                             :
                             <CardMedia
                                 className={classes.media}

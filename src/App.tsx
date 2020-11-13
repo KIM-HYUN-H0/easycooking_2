@@ -14,6 +14,7 @@ import WriteContainer from './component/Write/WriteContainer';
 import HeaderContainer from './component/Header/HeaderContainer';
 import LoginContainer from './component/Login/LoginContainer';
 import RegisterContainer from './component/Register/RegisterContainer';
+import ManageContainer from './component/Manage/Container';
 
 const useStyles = makeStyles((theme) => ({
   fix : {
@@ -44,6 +45,7 @@ const App = () => {
               <Route exact path="/login" component={LoginContainer} />
               <Route exact path="/signup" component={RegisterContainer} />
               <Route exact path="/Search" component={Search} />
+              <Route exact path="/manage" component={ManageContainer} />
             </Container>
           </Switch>
         </Router>

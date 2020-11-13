@@ -27,7 +27,6 @@ const DetailContainer = (props:any) => {
             .get()
             .then((data) => {
                 data.forEach((doc) => {
-                    console.log(doc.data());
                     db.collection('board')
                         .doc(doc.id)
                         .update({ view: firebase.firestore.FieldValue.increment(1) })
@@ -46,7 +45,10 @@ const DetailContainer = (props:any) => {
     const like = () => {
         db.collection('board').doc(doc)
             .update({ like: firebase.firestore.FieldValue.increment(1) })
-            .then(() => { load() })
+            .then(() => { 
+                load();
+                boardReset();
+            })
     }
 
     const deleteContent = () => {
@@ -60,8 +62,6 @@ const DetailContainer = (props:any) => {
                 console.error(err);
             })
     }
-
-
     return(
         <>
         <Detail 
