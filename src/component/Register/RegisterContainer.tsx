@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import Register from './Register';
 import { db, auth } from '../../config';
+import { loadNick } from '../../modules/userControl';
+import {  useDispatch } from 'react-redux';
 
 const RegisterContainer = (props:any) => {
+
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
@@ -30,9 +34,12 @@ const RegisterContainer = (props:any) => {
     const doRegister = () => {
         auth.createUserWithEmailAndPassword(email, pw)
             .then((result) => {
+                dispatch(loadNick(nickname));
+                props.history.push('/board/0');
                 return result.user?.updateProfile({
                     displayName : nickname
                 })
+                
             })
             .catch(err => {
                 const errCode = err.code;
